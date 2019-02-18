@@ -1,0 +1,30 @@
+.Site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.Site-content {
+    padding-top: 15vh;
+    flex: 1;
+}
+
+#logo {
+    height: 10vh;
+    width: 15vh;
+}
+
+#nav {
+    height: 15vh;
+    background-color: #294a88;
+}
+
+#nav-right {
+    text-transform: uppercase;
+}
+
+footer {
+    padding: 1%;
+    text-align: center;
+    background-color: #80898d;
+}
