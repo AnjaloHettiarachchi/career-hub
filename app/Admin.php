@@ -5,9 +5,16 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property mixed admin_password
+ */
 class Admin extends Authenticatable
 {
     use Notifiable;
+
+    protected $table = 'admins';
+    public $primaryKey = 'admin_id';
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -26,5 +33,10 @@ class Admin extends Authenticatable
     protected $hidden = [
         'admin_password', 'remember_token',
     ];
+
+    public function getAuthPassword()
+    {
+        return $this->admin_password;
+    }
 
 }
