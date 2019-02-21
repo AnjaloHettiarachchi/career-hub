@@ -17,20 +17,20 @@
 
 @section('content')
     <div id="container" class="ui clearing segment">
-        <h1>Admin <i class="angle right icon"></i> Login</h1>
-        <p>Use provided username and password for login as admin.</p>
+        <h1>Company <i class="angle right icon"></i> Login</h1>
+        <p>Provide necessary credentials to login to your company's account.</p>
 
         @include('includes.messages')
 
-        <form action="{{ route('admins.doLogin') }}" method="POST" class="ui form">
+        <form action="{{ route('companies.doLogin') }}" method="POST" class="ui form">
 
             {{ csrf_field() }}
 
-            <div class="field {{ $errors->has('admin_name') ? 'error' : '' }}">
+            <div class="field {{ $errors->has('company_user_name') ? 'error' : '' }}">
                 <div class="ui left icon input">
                     <i class="user icon"></i>
                     <input type="text" placeholder="Username" name="admin_name" id="admin_name"
-                           value="{{ old('admin_name') }}">
+                           value="{{ old('company_user_name') }}">
                 </div>
             </div>
 

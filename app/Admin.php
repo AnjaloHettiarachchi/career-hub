@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property mixed admin_password
+ * @property mixed admin_name
  */
 class Admin extends Authenticatable
 {
