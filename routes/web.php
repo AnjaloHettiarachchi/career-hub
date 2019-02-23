@@ -28,9 +28,10 @@ Route::prefix('companies')->group(function () {
     Route::post('/login', 'auth\CompanyLoginController@doCompanyLogin')->name('companies.doLogin');
     Route::post('/logout', 'auth\CompanyLoginController@logout')->name('companies.logout');
 
-    Route::get('/register', 'CompanyController@showCompanyRegister')->name('companies.showRegister');
-    Route::post('/register', 'CompanyController@doCompanyRegister')->name('companies.doRegister');
-    Route::get('/dashboard', 'CompanyController@showHome')->name('companies.home');
+    Route::get('/register', 'auth\CompanyRegisterController@showCompanyRegister')->name('companies.showRegister');
+    Route::post('/register', 'auth\CompanyRegisterController@doCompanyRegister')->name('companies.doRegister');
+
+    Route::get('/home', 'CompanyController@showHome')->name('companies.home');
 
 });
 

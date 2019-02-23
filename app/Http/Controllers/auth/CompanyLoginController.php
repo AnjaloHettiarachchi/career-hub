@@ -31,7 +31,7 @@ class CompanyLoginController extends Controller
         ]);
 
         //Attempt Login
-        if (Auth::guard('company')->attempt(['company_user_name' => $request['company_user_name'], 'password' => $request['password']], $request['remember'])) {
+        if (Auth::guard('company')->attempt(['com_user_name' => $request['company_user_name'], 'password' => $request['password']], $request['remember'])) {
             return redirect()->intended(route('companies.home'));
         } else {
             return redirect()->back()

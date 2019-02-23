@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>e12f4fc0-d444-4c31-b234-f5df0b994303.SCHEMA:nsbm-career-hub</OriginalElement>
+  <nodes>
+    <node x="341.5" y="0.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.faculties</node>
+    <node x="254.0" y="402.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.students</node>
+    <node x="1056.0" y="479.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.skills</node>
+    <node x="226.92819614711036" y="968.0122591943958">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.admin_roles</node>
+    <node x="332.9281961471104" y="756.0122591943958">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.admins</node>
+    <node x="491.0" y="190.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.degree_programs</node>
+    <node x="109.92819614711036" y="778.0122591943958">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.roles</node>
+    <node x="1200.121794871795" y="757.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.achievement_skills</node>
+    <node x="1280.0" y="479.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.achievements</node>
+    <node x="631.7628205128206" y="746.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_skills</node>
+    <node x="0.0" y="201.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_users</node>
+    <node x="1005.0" y="212.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.areas_of_expertise</node>
+    <node x="603.5" y="0.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.universities</node>
+    <node x="789.25" y="446.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.companies</node>
+    <node x="272.0" y="201.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_id_types</node>
+    <node x="714.0" y="190.0">e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.company_users</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.students" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_users">
+      <point x="-78.33333333333326" y="-147.0" />
+      <point x="293.16666666666674" y="377.0" />
+      <point x="126.0" y="377.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.admin_roles" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.roles">
+      <point x="-55.0" y="-59.0" />
+      <point x="281.9281961471104" y="943.0122591943958" />
+      <point x="211.42819614711036" y="943.0122591943958" />
+      <point x="0.0" y="59.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.admin_roles" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.admins">
+      <point x="55.0" y="-59.0" />
+      <point x="391.9281961471104" y="943.0122591943958" />
+      <point x="462.4281961471104" y="943.0122591943958" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.degree_programs" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.universities">
+      <point x="50.75" y="-81.0" />
+      <point x="643.25" y="165.0" />
+      <point x="722.5" y="165.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.degree_programs" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.faculties">
+      <point x="-50.75" y="-81.0" />
+      <point x="541.75" y="165.0" />
+      <point x="462.5" y="165.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_skills" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.students">
+      <point x="-51.0" y="-70.0" />
+      <point x="682.7628205128206" y="721.0" />
+      <point x="371.5" y="721.0" />
+      <point x="0.0" y="147.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.achievement_skills" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.skills">
+      <point x="-51.0" y="-59.0" />
+      <point x="1251.121794871795" y="721.0" />
+      <point x="1209.0" y="721.0" />
+      <point x="51.0" y="70.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.companies" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.company_users">
+      <point x="-60.25" y="-103.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_skills" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.skills">
+      <point x="51.0" y="-70.0" />
+      <point x="784.7628205128206" y="721.0" />
+      <point x="1107.0" y="721.0" />
+      <point x="-51.0" y="70.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.skills" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.areas_of_expertise">
+      <point x="0.0" y="-70.0" />
+      <point x="51.0" y="59.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.students" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.student_id_types">
+      <point x="0.0" y="-147.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.companies" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.areas_of_expertise">
+      <point x="60.25" y="-103.0" />
+      <point x="970.0" y="377.0" />
+      <point x="1056.0" y="377.0" />
+      <point x="-51.0" y="59.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.students" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.degree_programs">
+      <point x="78.33333333333326" y="-147.0" />
+      <point x="449.83333333333326" y="377.0" />
+      <point x="592.5" y="377.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.achievement_skills" target="e12f4fc0-d444-4c31-b234-f5df0b994303.TABLE:nsbm-career-hub.achievements">
+      <point x="51.0" y="-59.0" />
+      <point x="1353.121794871795" y="721.0" />
+      <point x="1380.5" y="721.0" />
+      <point x="0.0" y="70.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.4770153231179214" x="740.5" y="543.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+

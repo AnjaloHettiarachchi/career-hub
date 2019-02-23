@@ -17,7 +17,7 @@
 
 @section('content')
     <div id="container" class="ui clearing segment">
-        <h1>Admin <i class="angle right icon"></i> Login</h1>
+        <h1>Admin<i class="angle right icon"></i>Login</h1>
         <p>Use provided username and password for login as admin.</p>
 
         @include('includes.messages')

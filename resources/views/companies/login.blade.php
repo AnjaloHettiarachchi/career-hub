@@ -17,7 +17,7 @@
 
 @section('content')
     <div id="container" class="ui clearing segment">
-        <h1>Company <i class="angle right icon"></i> Login</h1>
+        <h1>Company<i class="angle right icon"></i>Login</h1>
         <p>Provide necessary credentials to login to your company's account.</p>
 
         @include('includes.messages')
@@ -29,7 +29,7 @@
             <div class="field {{ $errors->has('company_user_name') ? 'error' : '' }}">
                 <div class="ui left icon input">
                     <i class="user icon"></i>
-                    <input type="text" placeholder="Username" name="admin_name" id="admin_name"
+                    <input type="text" placeholder="Username" name="company_user_name" id="company_user_name"
                            value="{{ old('company_user_name') }}">
                 </div>
             </div>

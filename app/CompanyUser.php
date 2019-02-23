@@ -6,30 +6,28 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @property mixed company_user_password
+ * @property mixed com_user_password
  */
 class CompanyUser extends Authenticatable
 {
 
     use Notifiable;
 
-    //Table
-    public $primaryKey = 'company_user_id';
-    //Primary Key
-    public $timestamps = true;
-    //Timestamps
     protected $table = 'company_users';
+    public $primaryKey = 'com_user_id';
+    public $timestamps = true;
+
     protected $fillable = [
-        'company_user_name', 'company_user_password',
+        'com_user_name', 'com_user_password',
     ];
 
     protected $hidden = [
-        'company_user_password', 'remember_token',
+        'com_user_password', 'remember_token',
     ];
 
     public function getAuthPassword()
     {
-        return $this->company_user_password;
+        return $this->com_user_password;
     }
 
 }

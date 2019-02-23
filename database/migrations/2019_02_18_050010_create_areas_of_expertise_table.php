@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompanyUsersTable extends Migration
+class CreateAreasOfExpertiseTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateCompanyUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_users', function (Blueprint $table) {
-            $table->increments('company_user_id');
-            $table->string('company_user_name');
-            $table->string('company_user_password');
-            $table->rememberToken();
+        Schema::create('areas_of_expertise', function (Blueprint $table) {
+            $table->increments('aoe_id');
+            $table->string('aoe_name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateCompanyUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_users');
+        Schema::dropIfExists('areas_of_expertise');
     }
 }
