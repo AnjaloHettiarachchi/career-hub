@@ -7,6 +7,8 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property mixed com_user_password
+ * @property mixed com_user_name
+ * @property mixed com_user_id
  */
 class CompanyUser extends Authenticatable
 {
@@ -24,6 +26,11 @@ class CompanyUser extends Authenticatable
     protected $hidden = [
         'com_user_password', 'remember_token',
     ];
+
+    public function getAuthIdentifier()
+    {
+        return $this->com_user_id;
+    }
 
     public function getAuthPassword()
     {

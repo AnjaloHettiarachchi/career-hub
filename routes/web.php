@@ -32,6 +32,9 @@ Route::prefix('companies')->group(function () {
     Route::post('/register', 'auth\CompanyRegisterController@doCompanyRegister')->name('companies.doRegister');
 
     Route::get('/home', 'CompanyController@showHome')->name('companies.home');
+    Route::get('/create', 'CompanyController@showCreate')->name('companies.showCreate');
+    Route::post('/create', 'CompanyController@doCreate')->name('companies.doCreate');
+
 
 });
 

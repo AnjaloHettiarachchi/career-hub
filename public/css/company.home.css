@@ -1,0 +1,21 @@
+#container {
+    margin: 2%;
+}
+
+.ui.circular.image.icon {
+    height: 20vh;
+}
+
+p {
+    color: grey;
+    text-align: justify;
+    text-align-last: center;
+}
+
+span {
+    color: grey;
+}
+
+.content-div {
+    display: none;
+}

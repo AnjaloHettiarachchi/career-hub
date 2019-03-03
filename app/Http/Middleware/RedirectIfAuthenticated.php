@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RedirectIfAuthenticated
 {
@@ -25,7 +26,15 @@ class RedirectIfAuthenticated
                 break;
             case 'company':
                 if (Auth::guard($guard)->check()) {
-                    return redirect()->route('companies.home');
+                    $exists = DB::table('companies')
+                        ->where('com_user_id', Auth::guard('company')->user()->getAuthIdentifier())
+                        ->exists();
+
+                    if ($exists) {
+                        return redirect()->route('companies.home');
+                    } else {
+                        return redirect()->route('companies.showCreate');
+                    }
                 }
                 break;
             default:
