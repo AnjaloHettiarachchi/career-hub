@@ -50,3 +50,5 @@ Route::prefix('admins')->group(function () {
     Route::get('/dashboard', 'AdminController@showDashboard')->name('admins.dashboard');
 
 });
+
+Route::resource('opportunities', 'OpportunityController')->middleware('auth:company');

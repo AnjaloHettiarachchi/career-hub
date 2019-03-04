@@ -10,8 +10,6 @@
 
 @section('nav')
 
-    @auth('company')
-
         <a class="item" style="background-color: #BD2828" href="{{ route('companies.logout') }}"
            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
             <h4><i class="sign-out icon"></i>LOGOUT</h4>
@@ -19,8 +17,6 @@
         <form id="logout-form" action="{{ route('companies.logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
-
-    @endauth
 
 @endsection
 
@@ -55,46 +51,40 @@
 
         </div>
 
-        <div class="ui secondary pointing blue stackable menu">
-            <a class="item active">
+        <div id="main-menu" class="ui secondary pointing blue stackable menu">
+            <a class="home item active">
                 <i class="home icon"></i>
                 Home
             </a>
-            <a class="item">
+            <a class="con item">
                 <i class="comments icon"></i>
                 Conversations
             </a>
-            <a class="item">
+            <a class="op item">
                 <i class="users icon"></i>
                 Opportunities
             </a>
-            <a class="item">
+            <a class="find item">
                 <i class="search icon"></i>
                 Find Candidates
             </a>
-            <div class="right menu">
-                <a class="ui item">
+            <div id="main-menu-right" class="right menu">
+                <a class="settings item">
                     <i class="cogs icon"></i>
                     Account Settings
                 </a>
             </div>
         </div>
 
-        <div id="home-content" class="ui content-div segment">
-            <h1>Home</h1>
-        </div>
-        <div id="con-content" class="ui content-div segment">
-            <h1>Conversations</h1>
-        </div>
-        <div id="op-content" class="ui content-div segment">
-            <h1>Opportunities</h1>
-        </div>
-        <div id="find-content" class="ui content-div segment">
-            <h1>Find Candidates</h1>
-        </div>
-        <div id="settings-content" class="ui content-div segment">
-            <h1>Account Settings</h1>
-        </div>
+        @include('companies.fragments.home')
+
+        @include('companies.fragments.conversations')
+
+        @include('companies.fragments.opportunities', ['op_count' => $com_op_count])
+
+        @include('companies.fragments.find')
+
+        @include('companies.fragments.settings')
 
     </div>
 @endsection
