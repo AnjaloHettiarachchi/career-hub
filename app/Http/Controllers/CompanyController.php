@@ -49,7 +49,7 @@ class CompanyController extends Controller
 
         //Validation
         $this->validate($request, [
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|size:16000',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:16000',
             'aoe' => 'required',
             'aoe_alt' => 'required_if:aoe,==,0',
             'title' => 'required',

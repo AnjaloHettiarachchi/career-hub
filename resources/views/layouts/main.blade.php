@@ -16,6 +16,16 @@
             integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.close.icon').on('click', function () {
+                    $(this).closest('.message').transition('fade down');
+                }
+            );
+        });
+    </script>
+
     @yield('js')
 
     <title>{{ $title }}</title>

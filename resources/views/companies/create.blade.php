@@ -39,7 +39,7 @@
                          alt="avatar">
                 </div>
                 <div class="field">
-                    <input type="file" name="avatar" id="avatar" accept="[image/jpeg][image/png]">
+                    <input type="file" name="avatar" id="avatar" accept="[image/jpeg][image/png]" value="{{ old('avatar') }}">
                 </div>
             </div>
 
@@ -56,22 +56,22 @@
 
             <div id="div-aoe-alt" class="input field {{ $errors->has('aoe_alt') ? 'error' : '' }}">
                 <label for="aoe_alt">Alternate Area of Expertise</label>
-                <input type="text" name="aoe_alt" id="aoe_alt" placeholder="Define your company's Area of Expertise">
+                <input type="text" name="aoe_alt" id="aoe_alt" placeholder="Define your company's Area of Expertise" value="{{ old('aoe_alt') }}">
             </div>
 
             <div class="input field {{ $errors->has('title') ? 'error' : '' }}">
                 <label for="title">Company Title</label>
-                <input type="text" name="title" id="title" placeholder="Example Company PLC">
+                <input type="text" name="title" id="title" placeholder="Example Company PLC" value="{{ old('title') }}">
             </div>
 
             <div class="input field {{ $errors->has('desc') ? 'error' : '' }}">
                 <label for="desc">Company Description</label>
-                <textarea name="desc" id="desc" placeholder="Provide a short description about your company..." rows="3"></textarea>
+                <textarea name="desc" id="desc" placeholder="Provide a short description about your company..." rows="3">{{ old('desc') }}</textarea>
             </div>
 
             <div class="input field {{ $errors->has('address') ? 'error' : '' }}">
                 <label for="address">Company Address</label>
-                <textarea name="address" id="address" placeholder="No.01&#x0a;Example Lane&#x0a;Example City" rows="3"></textarea>
+                <textarea name="address" id="address" placeholder="No.01&#x0a;Example Lane&#x0a;Example City" rows="3">{{ old('address') }}</textarea>
             </div>
 
             <button class="ui labeled icon primary right floated button">
