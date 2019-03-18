@@ -15,7 +15,7 @@ class CreateOpportunitiesTable extends Migration
     {
         Schema::create('opportunities', function (Blueprint $table) {
             $table->increments('op_id');
-            $table->binary('op_banner');
+            $table->binary('op_banner')->nullable();
             $table->string('op_title');
             $table->text('op_desc');
             $table->unsignedInteger('com_id');

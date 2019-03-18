@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Opportunity;
+use App\OpportunitySkills;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -40,12 +41,40 @@ class OpportunityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'banner' => 'image|mimes:jpeg,png,jpg,gif,svg|max:16000',
+            'title' => 'required',
+            'desc' => 'required',
+            'skills' => 'required'
+        ]);
+
+        $op = new Opportunity();
+        $banner = $request->file('banner');
+        if ($banner != null) {
+            $op->op_banner = $banner->openFile()->fread($banner->getSize());
+        }
+        $op->op_title = $request['title'];
+        $op->op_desc = $request['desc'];
+        $op->com_id = Auth::guard('company')->user()->getAuthIdentifier();
+        $op->save();
+        $new_op_id = $op->op_id;
+
+        $skills = explode(',', $request['skills']);
+        for ($i = 0; $i < count($skills); $i+=2) {
+            $op_skills = new OpportunitySkills();
+            $op_skills->op_id = $new_op_id;
+            $op_skills->skill_id = $skills[$i];
+            $op_skills->op_skill_level = $skills[$i+1];
+            $op_skills->save();
+        }
+
+        return redirect()->route('companies.home');
     }
 
     /**

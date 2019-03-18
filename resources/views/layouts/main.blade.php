@@ -34,7 +34,7 @@
 <body class="Site">
 
 <header>
-    <div id="nav" class="ui top fixed inverted menu">
+    <div id="nav" class="ui middle attached inverted menu">
         <a id="logo-container" class="item" href="{{ route('site.index') }}">
             <img id="logo" src="{{ asset('png/CareerHub.png') }}" alt="{{ env('APP_NAME') }}">
         </a>

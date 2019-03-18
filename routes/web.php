@@ -52,3 +52,4 @@ Route::prefix('admins')->group(function () {
 });
 
 Route::resource('opportunities', 'OpportunityController')->middleware('auth:company');
+Route::resource('skills', 'SkillController');

@@ -5,6 +5,7 @@
 @stop
 
 @section('js')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
     <script type="text/javascript" src="{{ asset('js/company.home.js') }}"></script>
 @endsection
 
@@ -76,11 +77,11 @@
             </div>
         </div>
 
-        @include('companies.fragments.home')
+        @include('companies.fragments.home', ['com_ops' => $com_ops])
 
         @include('companies.fragments.conversations')
 
-        @include('companies.fragments.opportunities', ['op_count' => $com_op_count])
+        @include('companies.fragments.opportunities', ['com_ops' => $com_ops])
 
         @include('companies.fragments.find')
 

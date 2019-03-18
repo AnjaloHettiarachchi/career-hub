@@ -28,14 +28,14 @@ class CompanyController extends Controller
             ->pluck('aoe_name')
             ->first();
 
-        $com_op_count = DB::table('opportunities')
+        $com_ops = DB::table('opportunities')
             ->where('com_id', $com_details->com_id)
-            ->count();
+            ->get();
 
         return view('companies.home')
             ->with('com_details', $com_details)
             ->with('com_aoe', $com_aoe)
-            ->with('com_op_count', $com_op_count)
+            ->with('com_ops', $com_ops)
             ->with('title', $com_details->com_title . ' | ' . env('APP_NAME'));
     }
 
@@ -49,7 +49,7 @@ class CompanyController extends Controller
 
         //Validation
         $this->validate($request, [
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif,svg|max:16000',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:16000',
             'aoe' => 'required',
             'aoe_alt' => 'required_if:aoe,==,0',
             'title' => 'required',

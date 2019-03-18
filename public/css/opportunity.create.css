@@ -2,14 +2,15 @@
     margin: 5%;
 }
 
-.ck-editor__editable {
-    height: 63vh;
-}
+/*.ck-editor__editable {*/
+    /*height: 63vh;*/
+/*}*/
 
 span {
     font-size: small;
 }
 
 #skill-list {
-    height: 73vh;
+    overflow-y: auto;
+    height: 54vh;
 }

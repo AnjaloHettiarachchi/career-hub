@@ -5,3 +5,7 @@
 #div-aoe-alt{
     display: none;
 }
+
+.ui.two.wide.column {
+    padding-left: 5vw;
+}

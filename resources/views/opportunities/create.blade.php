@@ -2,16 +2,7 @@
 
 @section('js')
     <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
-    <script>
-        $(document).ready(function () {
-            ClassicEditor
-                .create(document.querySelector('#desc'))
-                .catch(error => {
-                    console.error(error);
-                })
-            $('#tab-set .item').tab();
-        })
-    </script>
+    <script src="{{ asset('js/opportunity.create.js') }}"></script>
 @endsection
 
 @section('css')
@@ -25,15 +16,30 @@
             <br>{{ $com_title }}</div>
         <h1>Opportunity<i class="angle right icon"></i>Create</h1>
 
-        <form action="{{ route('opportunities.store') }}" class="ui form" method="POST">
+        <form action="{{ route('opportunities.store') }}" class="ui form" method="POST" enctype="multipart/form-data">
+
+            <input name="skills" type="hidden" id="skills"/>
+            {{ csrf_field() }}
 
             <div class="ui two column stackable grid">
 
                 <div class="center aligned column">
                     <div class="field">
-                        <label for="banner">Click to upload a banner image</label>
-                        <img class="ui rounded image" name="banner" id="banner" src="{{ asset('png/poster.jpg') }}"
-                             alt="poster">
+                        <label for="banner">Banner Image</label>
+                        <div class="ui rounded image">
+                            {{-- Dimmer Start --}}
+                            <div class="ui dimmer">
+                                <div class="content">
+                                    <button class="ui big positive button" id="upload">
+                                        <i class="cloud upload icon"></i>Upload a Banner Image
+                                    </button>
+                                </div>
+                            </div>
+                            {{-- Dimmer End --}}
+                            <img class="ui rounded image" name="banner-img" id="banner-img"
+                                 src="{{ asset('png/poster.jpg') }}"
+                                 alt="poster">
+                        </div>
                         <input type="file" name="banner" id="banner" hidden>
                     </div>
                 </div>
@@ -50,12 +56,22 @@
                         </div>
                         <div class="field">
                             <label for="desc">Description</label>
-                            <textarea id="desc" name="desc"></textarea>
+                            <textarea id="desc" name="desc" rows="24" placeholder="Description about the opportunity..."></textarea>
                         </div>
                     </div>
                     <div class="ui bottom attached tab segment" data-tab="second">
                         <div class="ui top attached segment">
-                            <div class="ui search">
+                            <div class="ui info icon message">
+                                <i class="info circle icon"></i>
+                                <div class="content">
+                                    <p>
+                                        You can define relevant skills and their specific competence levels for
+                                        your opportunity below. You can search for skills and can define competence
+                                        levels after adding them to the list.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="ui fluid search">
                                 <div class="ui icon fluid input">
                                     <input class="prompt" type="text" placeholder="Search Skills...">
                                     <i class="search icon"></i>
@@ -74,7 +90,7 @@
 
             </div>
 
-            <button type="submit" class="ui right floated disabled positive button">Create Opportunity</button>
+            <button id="submit" name="submit" type="submit" class="ui right floated disabled positive button">Create Opportunity</button>
 
         </form>
 
