@@ -7,6 +7,8 @@
 .Site-content {
     /*padding-top: 15vh;*/
     flex: 1;
+    background-color: #f2f2f2;
+    /*background: url("../png/background.jpg") center center;*/
 }
 
 #logo {
@@ -26,5 +28,6 @@
 footer {
     padding: 1%;
     text-align: center;
-    background-color: #80898d;
+    color: #ffffff;
+    background-color: #294a88;
 }

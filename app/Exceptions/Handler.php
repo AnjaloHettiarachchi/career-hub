@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
                 $login = 'companies.showLogin';
                 break;
             default:
-                $login = 'students.login';
+                $login = 'students.doLogin';
                 break;
         }
         return redirect()->guest(route($login));

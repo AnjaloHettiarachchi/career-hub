@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/admin.register.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/company.register.css') }}">
 @endsection
 
 @section('js')
@@ -17,20 +17,20 @@
 
 @section('content')
     <div id="container" class="ui clearing segment">
-        <h1>Admin <i class="angle right icon"></i> Register</h1>
-        <p>Provide relevant details to create a new admin account.</p>
+        <h1>Company <i class="angle right icon"></i> Register</h1>
+        <p>Provide relevant details to create a new account for your company.</p>
 
         @include('includes.messages')
 
-        <form action="{{ route('admins.doRegister') }}" method="POST" class="ui form">
+        <form action="{{ route('companies.doRegister') }}" method="POST" class="ui form">
 
             {{ csrf_field() }}
 
-            <div class="field {{ $errors->has('admin_name') ? 'error' : '' }}">
+            <div class="field {{ $errors->has('com_name') ? 'error' : '' }}">
                 <div class="ui left icon input">
                     <i class="user icon"></i>
-                    <input type="text" placeholder="Username (i.e. john_doe)" name="admin_name" id="admin_name"
-                           value="{{ old('admin_name') }}" required>
+                    <input type="text" placeholder="Username (i.e. abc_company)" name="com_name" id="com_name"
+                           value="{{ old('com_name') }}" required>
                 </div>
 
             </div>

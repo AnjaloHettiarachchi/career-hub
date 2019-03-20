@@ -34,12 +34,13 @@ class CompanyLoginController extends Controller
         //Attempt Login
         if (Auth::guard('company')->attempt(['com_user_name' => $request['company_user_name'], 'password' => $request['password']], $request['remember'])) {
 
-            $exists = DB::table('companies')
+            $com_id = DB::table('companies')
                 ->where('com_user_id', Auth::guard('company')->user()->getAuthIdentifier())
-                ->exists();
+                ->pluck('com_id')
+                ->first();
 
-            if ($exists) {
-                return redirect()->route('companies.home');
+            if ($com_id) {
+                return redirect()->route('companies.home', $com_id);
             } else {
                 return redirect()->route('companies.showCreate');
             }

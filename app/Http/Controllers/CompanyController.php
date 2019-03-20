@@ -16,10 +16,10 @@ class CompanyController extends Controller
         $this->middleware('auth:company');
     }
 
-    public function showHome()
+    public function showHome($id)
     {
         $com_details = DB::table('companies')
-            ->where('com_user_id', Auth::guard('company')->user()->getAuthIdentifier())
+            ->where('com_user_id', $id)
             ->get()
             ->first();
 
@@ -41,7 +41,10 @@ class CompanyController extends Controller
 
     public function showCreate()
     {
-        return view('companies.create')->with('title', 'Company › Create Account | ' . env('APP_NAME'));
+        $aoe_list = DB::table('areas_of_expertise')->get();
+        return view('companies.create')
+            ->with('aoe_list', $aoe_list)
+            ->with('title', 'Company › Create Account | ' . env('APP_NAME'));
     }
 
     public function doCreate(Request $request)
@@ -87,7 +90,7 @@ class CompanyController extends Controller
         $company->com_user_id = Auth::guard('company')->user()->getAuthIdentifier();
         $company->save();
 
-        return redirect()->route('companies.home');
+        return redirect()->route('companies.home', $company->com_id);
 
     }
 

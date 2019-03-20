@@ -12,7 +12,7 @@
                     </div>
                     <div class="content">
                         <div class="summary">
-                            You created an opportunity as <a>{{ $op->op_title }}</a>.
+                            You created an opportunity as <a href="{{ route('opportunities.show', $op->op_id) }}">{{ $op->op_title }}</a>.
                             <div class="date">
                                 <script type="text/javascript">
                                     document.write(moment("{{ $op->created_at }}").fromNow())

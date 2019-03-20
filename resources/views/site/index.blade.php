@@ -26,7 +26,7 @@
         <img id="nsbm-logo" src="{{ asset('png/nsbm.png') }}" alt="NSBM">
     </a>
     <div id="links">
-        <a href="">Student</a>
+        <a href="{{ route('students.index') }}">Student</a>
         <a href="{{ route('companies.index') }}">Company</a>
         <a href="">About</a>
     </div>

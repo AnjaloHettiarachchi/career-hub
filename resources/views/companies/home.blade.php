@@ -22,7 +22,7 @@
 @endsection
 
 @section('content')
-    <div id="container" class="ui segment">
+    <div id="container" class="ui raised clearing segment">
 
         <div class="ui three column middle aligned stackable divided grid">
 

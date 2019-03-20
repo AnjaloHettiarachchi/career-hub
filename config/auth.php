@@ -55,6 +55,11 @@ return [
             'driver' => 'session',
             'provider' => 'companies',
         ],
+
+        'student' => [
+            'driver' => 'session',
+            'provider' => 'students',
+        ],
     ],
 
     /*
@@ -75,10 +80,10 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
-        ],
+//        'users' => [
+//            'driver' => 'eloquent',
+//            'model' => App\User::class,
+//        ],
 
         'admins' => [
             'driver' => 'eloquent',
@@ -88,6 +93,11 @@ return [
         'companies' => [
             'driver' => 'eloquent',
             'model' => App\CompanyUser::class,
+        ],
+
+        'students' => [
+            'driver' => 'ldap',
+            'model' => App\StudentUser::class,
         ],
 
         // 'users' => [
@@ -112,21 +122,31 @@ return [
     */
 
     'passwords' => [
+
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
         'companies' => [
             'provider' => 'companies',
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
+        'students' => [
+            'provider' => 'students',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
         'admins' => [
             'provider' => 'admins',
             'table' => 'password_resets',
             'expire' => 15,
         ],
+
     ],
 
 ];

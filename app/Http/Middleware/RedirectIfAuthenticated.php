@@ -26,12 +26,13 @@ class RedirectIfAuthenticated
                 break;
             case 'company':
                 if (Auth::guard($guard)->check()) {
-                    $exists = DB::table('companies')
+                    $com_id = DB::table('companies')
                         ->where('com_user_id', Auth::guard('company')->user()->getAuthIdentifier())
-                        ->exists();
+                        ->pluck('com_id')
+                        ->first();
 
-                    if ($exists) {
-                        return redirect()->route('companies.home');
+                    if ($com_id) {
+                        return redirect()->route('companies.home', $com_id);
                     } else {
                         return redirect()->route('companies.showCreate');
                     }

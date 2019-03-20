@@ -24,7 +24,7 @@
 
     <div id="container" class="ui clearing segment">
 
-        <h1><i class="far fa-building icon"></i>Company<i class="angle right icon"></i>Create Account</h1>
+        <h1><i class="far fa-building icon"></i> Company<i class="angle right icon"></i>Create Account</h1>
         <p>Provide necessary information and complete your company's account.</p>
 
         @include('includes.messages')
@@ -52,7 +52,7 @@
                 <label for="aoe">Area of Expertise</label>
                 <select class="ui dropdown" id="aoe" name="aoe">
                     <option value="">Select your Company's Area of Expertise</option>
-                    @foreach(DB::table('areas_of_expertise')->get() as $aoe)
+                    @foreach($aoe_list as $aoe)
                         <option value="{{ $aoe->aoe_id }}">{{ $aoe->aoe_name }}</option>
                     @endforeach
                     <option value="0">Other</option>

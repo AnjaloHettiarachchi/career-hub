@@ -2,12 +2,12 @@
     <h1>Opportunities</h1>
 
     @if (count($com_ops) > 0)
-        <div class="ui raised four link cards">
+        <div class="ui raised four link stackable cards">
             @foreach ($com_ops as $op)
 
-                <div class="ui card">
+                <a class="ui card" href="{{ route('opportunities.show', $op->op_id) }}">
                     <div class="image">
-                        <img src="{{ asset('png/poster.jpg') }}">
+                        <img src="{{ asset('png/poster.jpg') }}" alt="banner">
                     </div>
                     <div class="content">
                         <div class="header">{{ $op->op_title }}</div>
@@ -18,13 +18,17 @@
                                 </script>
                             </span>
                         </div>
-                        <div class="description">
-                            <p style="text-overflow: ellipsis">{{ $op->op_desc }}</p>
-                        </div>
                     </div>
-                </div>
+                </a>
 
             @endforeach
+
+                <a class="ui blue card" href="{{ route('opportunities.create') }}">
+                    <div class="content">
+                        <div class="ui huge header">Create<br>A New<br>Opportunity</div>
+                    </div>
+                </a>
+
         </div>
 
     @else

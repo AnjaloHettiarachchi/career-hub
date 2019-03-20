@@ -3,11 +3,11 @@
 
     <div class="ui placeholder center aligned segment">
         <div class="ui icon header">
-            <i class="users icon"></i>
-            There are no opportunities listed by your company.
+            <i class="comments icon"></i>
+            There are no conversations by your company yet.
         </div>
-        <p>An opportunity can be used to inform the students with possible recruitment or training positions of your company.</p>
-        <a class="ui primary button" href="{{ route('opportunities.create') }}">Create a New Opportunity</a>
+        <p>Conversations can be used to reach out to candidates instantly.</p>
+        <a class="ui primary button" href="{{ route('opportunities.create') }}">Start a New Conversation</a>
     </div>
 
 </div>
