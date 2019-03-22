@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
     ],
 
@@ -225,6 +226,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 
     ],
 

@@ -14,7 +14,11 @@ class UniversityController extends Controller
      */
     public function index()
     {
-        //
+        $uni_list = University::all();
+
+        return view('universities.index')
+            ->with('uni_list', $uni_list)
+            ->with('title', 'Universities | ' . env('APP_NAME'));
     }
 
     /**
@@ -30,12 +34,27 @@ class UniversityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        //Validation
+        $this->validate($request, [
+            'short' => 'required|string|min:3',
+            'title' => 'required|string'
+        ], [], [
+            'short' => 'University Short Code',
+            'title' => 'University Title'
+        ]);
+
+        $uni = new University();
+        $uni->uni_short_code = $request['short'];
+        $uni->uni_title = $request['title'];
+        $uni->save();
+
+        return $uni->uni_id;
     }
 
     /**
@@ -63,23 +82,41 @@ class UniversityController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\University  $university
+     * @param  \Illuminate\Http\Request $request
+     * @param  integer $university
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, University $university)
+    public function update(Request $request, int $university)
     {
-        //
+        //Validation
+        $this->validate($request, [
+            'short' => 'required|string|min:3',
+            'title' => 'required|string'
+        ], [], [
+            'short' => 'University Short Code',
+            'title' => 'University Title'
+        ]);
+
+        $uni = University::find($university);
+        $uni->uni_short_code = $request['short'];
+        $uni->uni_title = $request['title'];
+        $uni->save();
+
+        return $uni->uni_id;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\University  $university
+     * @param  integer  $university
      * @return \Illuminate\Http\Response
      */
-    public function destroy(University $university)
+    public function destroy(int $university)
     {
-        //
+        $uni = University::find($university);
+        $uni->delete();
+
+        return $uni->uni_id;
     }
 }

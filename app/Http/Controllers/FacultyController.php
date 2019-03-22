@@ -14,7 +14,11 @@ class FacultyController extends Controller
      */
     public function index()
     {
-        //
+        $fac_list = Faculty::all();
+
+        return view('faculties.index')
+            ->with('fac_list', $fac_list)
+            ->with('title', 'Faculties | ' . env('APP_NAME'));
     }
 
     /**
@@ -30,12 +34,27 @@ class FacultyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        //Validation
+        $this->validate($request, [
+            'name' => 'required|string',
+            'full' => 'required|string'
+        ], [], [
+            'name' => 'Faculty Short Name',
+            'full' => 'Faculty Full Name'
+        ]);
+
+        $fac = new Faculty();
+        $fac->fac_short_name = $request['name'];
+        $fac->fac_name = $request['full'];
+        $fac->save();
+
+        return $fac->fac_id;
     }
 
     /**
@@ -63,23 +82,41 @@ class FacultyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Faculty  $faculty
+     * @param  \Illuminate\Http\Request $request
+     * @param  integer $faculty
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, Faculty $faculty)
+    public function update(Request $request, int $faculty)
     {
-        //
+        //Validation
+        $this->validate($request, [
+            'name' => 'required|string',
+            'full' => 'required|string'
+        ], [], [
+            'name' => 'Faculty Short Name',
+            'full' => 'Faculty Full Name'
+        ]);
+
+        $fac = Faculty::find($faculty);
+        $fac->fac_short_name = $request['name'];
+        $fac->fac_name = $request['full'];
+        $fac->save();
+
+        return $fac->fac_id;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Faculty  $faculty
+     * @param  integer  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Faculty $faculty)
+    public function destroy(int $faculty)
     {
-        //
+        $fac = Faculty::find($faculty);
+        $fac->delete();
+
+        return $fac->fac_id;
     }
 }

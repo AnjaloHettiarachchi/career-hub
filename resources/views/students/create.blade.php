@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/student.create.css') }}">
 @endsection
 
+@section('js')
+    <script type="text/javascript" src="{{ asset('js/student.create.js') }}"></script>
+@endsection
+
 @section('nav')
 
     <a class="item" style="background-color: #BD2828" href="{{ route('students.logout') }}"

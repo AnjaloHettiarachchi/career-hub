@@ -1,0 +1,15 @@
+#container {
+    margin: 3%;
+}
+
+p {
+    color: grey;
+}
+
+.description {
+    margin: 5%;
+}
+
+tr:hover {
+    cursor: pointer;
+}

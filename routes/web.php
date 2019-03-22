@@ -65,5 +65,8 @@ Route::prefix('student')->group(function () {
 });
 
 //Resources
+Route::resource('stuIdTypes', 'StudentIdTypeController');
+Route::resource('faculties', 'FacultyController');
+Route::resource('universities', 'UniversityController');
 Route::resource('opportunities', 'OpportunityController')->middleware('auth:company');
 Route::resource('skills', 'SkillController');

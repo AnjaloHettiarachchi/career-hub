@@ -15,7 +15,7 @@ class CreateStudentIdTypesTable extends Migration
     {
         Schema::create('student_id_types', function (Blueprint $table) {
             $table->increments('sit_id');
-            $table->string('sit_type');
+            $table->string('sit_name');
             $table->integer('sit_length');
             $table->timestamps();
         });
