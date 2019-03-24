@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('js')
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
     <script src="{{ asset('js/opportunity.create.js') }}"></script>
 @endsection
 
@@ -90,7 +89,9 @@
 
             </div>
 
-            <button id="submit" name="submit" type="submit" class="ui right floated disabled positive button">Create Opportunity</button>
+            <button id="submit" name="submit" type="submit" class="ui right floated disabled positive button">
+                Create Opportunity
+            </button>
 
         </form>
 

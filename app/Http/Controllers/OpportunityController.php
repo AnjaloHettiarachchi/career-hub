@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\CompanyUser;
 use App\Opportunity;
 use App\OpportunitySkills;
 use Illuminate\Http\Request;
@@ -18,7 +19,11 @@ class OpportunityController extends Controller
      */
     public function index()
     {
-        $ops = Opportunity::where('com_id', Auth::guard('company')->user()->getAuthIdentifier())->get();
+        $com_id = Company::where('com_user_id', Auth::guard('company')->user()->getAuthIdentifier())
+            ->pluck('com_id')
+            ->first();
+
+        $ops = Opportunity::where('com_id', $com_id)->get();
         return $ops;
     }
 
@@ -55,6 +60,11 @@ class OpportunityController extends Controller
             'skills' => 'required'
         ]);
 
+        $com_id = DB::table('companies')
+            ->where('com_user_id', Auth::guard('company')->user()->getAuthIdentifier())
+            ->pluck('com_id')
+            ->first();
+
         $op = new Opportunity();
         $banner = $request->file('banner');
         if ($banner != null) {
@@ -62,7 +72,7 @@ class OpportunityController extends Controller
         }
         $op->op_title = $request['title'];
         $op->op_desc = $request['desc'];
-        $op->com_id = Auth::guard('company')->user()->getAuthIdentifier();
+        $op->com_id = $com_id;
         $op->save();
         $new_op_id = $op->op_id;
 

@@ -5,8 +5,3 @@
 span {
     font-size: small;
 }
-
-#skill-list {
-    overflow-y: auto;
-    height: 54vh;
-}

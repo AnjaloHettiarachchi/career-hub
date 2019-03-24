@@ -18,7 +18,7 @@ class CreateStudentsTable extends Migration
             $table->binary('stu_avatar')->nullable();
             $table->string('stu_prov_id');
             $table->string('stu_full_name');
-            $table->text('stu_bio');
+            $table->text('stu_bio')->nullable();
             $table->string('stu_con_num');
             $table->string('stu_email');
             $table->unsignedInteger('deg_id');

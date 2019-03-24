@@ -42,7 +42,7 @@ class UniversityController extends Controller
     {
         //Validation
         $this->validate($request, [
-            'short' => 'required|string|min:3',
+            'short' => 'required|string|min:2',
             'title' => 'required|string'
         ], [], [
             'short' => 'University Short Code',

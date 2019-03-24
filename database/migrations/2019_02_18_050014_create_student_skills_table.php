@@ -16,7 +16,7 @@ class CreateStudentSkillsTable extends Migration
         Schema::create('student_skills', function (Blueprint $table) {
             $table->unsignedInteger('stu_id');
             $table->unsignedInteger('skill_id');
-            $table->integer('skill_level');
+            $table->integer('stu_skill_level');
             $table->timestamps();
 
             //Keys

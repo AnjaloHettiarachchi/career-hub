@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class StudentLoginController extends Controller
 {
@@ -37,13 +38,16 @@ class StudentLoginController extends Controller
     {
         $errors = [];
 
-        $this->validate($request, [
-            $this->username() => 'required|string|regex:/^\w+$/',
-            'password' => 'required|string'
-        ], [], [
-            $this->username() => 'Username',
-            'password' => 'Password'
-        ]);
+        try {
+            $this->validate($request, [
+                $this->username() => 'required|string|regex:/^\w+$/',
+                'password' => 'required|string'
+            ], [], [
+                $this->username() => 'Username',
+                'password' => 'Password'
+            ]);
+        } catch (ValidationException $e) {
+        }
 
         $credentials = $request->only($this->username(), 'password');
         $username = $credentials[$this->username()];

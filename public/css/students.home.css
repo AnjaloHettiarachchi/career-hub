@@ -1,0 +1,15 @@
+#container {
+    margin: 2%;
+}
+
+.ui.circular.image.icon {
+    height: 20vh;
+}
+
+p, span {
+    color: grey;
+}
+
+.content-div {
+    display: none;
+}

@@ -38,6 +38,20 @@ class RedirectIfAuthenticated
                     }
                 }
                 break;
+            case 'student':
+                if (Auth::guard($guard)->check()) {
+                    $stu_id = DB::table('students')
+                        ->where('stu_user_id', Auth::guard('student')->user()->getAuthIdentifier())
+                        ->pluck('stu_id')
+                        ->first();
+
+                    if ($stu_id) {
+                        return redirect()->route('students.home', $stu_id);
+                    } else {
+                        return redirect()->route('students.showCreate');
+                    }
+                }
+                break;
             default:
                 if (Auth::guard($guard)->check()) {
                     return redirect('/');

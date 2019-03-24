@@ -69,24 +69,6 @@ $(document).ready(function () {
             });
     });
 
-    // $('#submit').on('click', (e) => {
-    //     e.preventDefault();
-    //     let title = $('#title').val();
-    //     let desc = $('#desc').val();
-    //
-    //     $.ajax({
-    //         url: '/opportunities',
-    //         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-    //         type: 'POST',
-    //         dataType: 'JSON',
-    //         data: {title: title, desc: desc, skills: skills},
-    //         success: function () {
-    //             window.location.href = '/companies/home';
-    //         }
-    //     })
-    //
-    // })
-
 });
 
 function validator(title, desc, hasSkills) {

@@ -5,3 +5,7 @@
 .ui.two.wide.column {
     padding-left: 5vw;
 }
+
+#fac-field, #uni-field, #prov-id-field {
+    display: none;
+}

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DegreeProgram;
+use App\Faculty;
+use App\University;
 use Illuminate\Http\Request;
 
 class DegreeProgramController extends Controller
@@ -14,7 +16,15 @@ class DegreeProgramController extends Controller
      */
     public function index()
     {
-        //
+        $fac_list = Faculty::all();
+        $uni_list = University::all();
+        $deg_list = DegreeProgram::all();
+
+        return view('degree_programs.index')
+            ->with('fac_list', $fac_list)
+            ->with('uni_list', $uni_list)
+            ->with('deg_list', $deg_list)
+            ->with('title', 'Degree Programs | ' . env('APP_NAME'));
     }
 
     /**
@@ -30,12 +40,30 @@ class DegreeProgramController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        //Validation
+        $this->validate($request, [
+            'uni' => 'required',
+            'fac' => 'required',
+            'title' => 'required|string'
+        ], [], [
+            'uni' => 'Degree Program\'s University',
+            'fac' => 'Degree Program\'s Faculty',
+            'title' => 'Degree Program Title'
+        ]);
+
+        $deg = new DegreeProgram();
+        $deg->deg_title = $request['title'];
+        $deg->fac_id = $request['fac'];
+        $deg->uni_id = $request['uni'];
+        $deg->save();
+
+        return $deg->deg_id;
     }
 
     /**
@@ -63,23 +91,44 @@ class DegreeProgramController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DegreeProgram  $degreeProgram
+     * @param  \Illuminate\Http\Request $request
+     * @param  integer $degreeProgram
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, DegreeProgram $degreeProgram)
+    public function update(Request $request, int $degreeProgram)
     {
-        //
+        //Validation
+        $this->validate($request, [
+            'uni' => 'required',
+            'fac' => 'required',
+            'title' => 'required|string'
+        ], [], [
+            'uni' => 'Degree Program\'s University',
+            'fac' => 'Degree Program\'s Faculty',
+            'title' => 'Degree Program Title'
+        ]);
+
+        $deg = DegreeProgram::find($degreeProgram);
+        $deg->deg_title = $request['title'];
+        $deg->fac_id = $request['fac'];
+        $deg->uni_id = $request['uni'];
+        $deg->save();
+
+        return $deg->deg_id;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\DegreeProgram  $degreeProgram
+     * @param  integer $degreeProgram
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DegreeProgram $degreeProgram)
+    public function destroy(int $degreeProgram)
     {
-        //
+        $deg = DegreeProgram::find($degreeProgram);
+        $deg->delete();
+
+        return $deg->deg_id;
     }
 }
