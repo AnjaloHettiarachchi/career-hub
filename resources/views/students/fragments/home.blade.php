@@ -1,26 +1,58 @@
 <div id="home-content" class="ui content-div segment">
     <h1>Home</h1>
 
-    @if (count($stu_skills) > 0)
+    @if (count($stu_skills) > 0 || count($stu_achs) > 0)
 
         <div class="ui dividing header">Recent Activities</div>
-        <div class="ui feed">
-            <div class="event">
-                <div class="label">
-                    <i class="star circular inverted blue middle aligned icon"></i>
-                </div>
-                <div class="content">
-                    <div class="summary">
-                        Your skill listing is completed. Now you have <a>{{ count($stu_skills) }} skills</a>.
-                        <div class="date">
-                            <script type="text/javascript">
-                                document.write(moment("{{ $stu_skills->toArray()[0]->created_at }}").fromNow())
-                            </script>
+
+        @if (count($stu_skills) > 0)
+
+
+            <div class="ui feed">
+                <div class="event">
+                    <div class="label">
+                        <i class="star circular inverted blue middle aligned icon"></i>
+                    </div>
+                    <div class="content">
+                        <div class="summary">
+                            Your skill listing is completed. Now you have <a onclick="showTab('skill')">{{ count($stu_skills) }} skills</a>.
+                            <div class="date">
+                                <script type="text/javascript">
+                                    document.write(moment("{{ $stu_skills->toArray()[0]->updated_at }}").fromNow())
+                                </script>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+
+        @endif
+
+        @if (count($stu_achs) > 0)
+
+            @foreach($stu_achs as $ach)
+
+                <div class="ui feed">
+                    <div class="event">
+                        <div class="label">
+                            <i class="trophy circular inverted blue middle aligned icon"></i>
+                        </div>
+                        <div class="content">
+                            <div class="summary">
+                                You have posted an new Achievement as <a href="{{ route('achievements.show', $ach->ach_id) }}">{{ $ach->ach_title }}</a>.
+                                <div class="date">
+                                    <script type="text/javascript">
+                                        document.write(moment("{{ $ach->created_at }}").fromNow())
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            @endforeach
+
+        @endif
 
     @else
 

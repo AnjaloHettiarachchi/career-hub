@@ -2,24 +2,24 @@
     <h1>Opportunities</h1>
 
     @if (count($com_ops) > 0)
+
         <div class="ui raised four link stackable cards">
             @foreach ($com_ops as $op)
 
-                <a class="ui card" href="{{ route('opportunities.show', $op->op_id) }}">
+                <div class="ui card" onclick="window.location.href='{{ route('opportunities.show', $op->op_id) }}'">
                     <div class="image">
                         <img src="{{ asset('png/poster.jpg') }}" alt="banner">
                     </div>
                     <div class="content">
                         <div class="header">{{ $op->op_title }}</div>
-                        <div class="meta">
-                            <span class="date">
-                                <script type="text/javascript">
-                                    document.write("Created " + moment("{{ $op->created_at }}").fromNow())
-                                </script>
-                            </span>
-                        </div>
                     </div>
-                </a>
+                    <div class="extra content">
+                        <i class="history icon"></i>
+                        <script type="text/javascript">
+                            document.write("Created " + moment("{{ $op->created_at }}").fromNow())
+                        </script>
+                    </div>
+                </div>
 
             @endforeach
 

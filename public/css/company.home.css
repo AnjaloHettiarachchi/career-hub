@@ -13,3 +13,53 @@ p, span {
 .content-div {
     display: none;
 }
+
+/* Chat Start */
+
+#chat-list {
+    height: 80vh;
+}
+
+#chat-header {
+    min-height: 10vh;
+}
+
+#chat-room {
+    height: 70vh;
+}
+
+#chat-send {
+    height: 10vh;
+}
+
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    height: 70vh;
+}
+
+ul li{
+    display:inline-block;
+    clear: both;
+    padding: 1%;
+    border-radius: 30px;
+    margin-bottom: 2px;
+    font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
+}
+
+.him {
+    background: #eee;
+    float: left;
+    border-radius: 30px 30px 30px 5px;
+}
+
+.me {
+    float: right;
+    background: #0084ff;
+    color: #fff;
+    border-radius: 30px 30px 5px 30px;
+}
+
+/* Chat End */

@@ -2,6 +2,10 @@ $(document).ready(function () {
 
     $('#home-content').css('display', 'block');
 
+    $('.ui.accordion').accordion();
+
+    $('#aoe').dropdown();
+
     $('#main-menu').on('click', '.item', function () {
         $('#main-menu .item').removeClass('active');
         $(this).addClass('active');

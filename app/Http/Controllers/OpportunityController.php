@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\CompanyUser;
 use App\Opportunity;
-use App\OpportunitySkills;
+use App\OpportunitySkill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,14 +78,14 @@ class OpportunityController extends Controller
 
         $skills = explode(',', $request['skills']);
         for ($i = 0; $i < count($skills); $i+=2) {
-            $op_skills = new OpportunitySkills();
+            $op_skills = new OpportunitySkill();
             $op_skills->op_id = $new_op_id;
             $op_skills->skill_id = $skills[$i];
             $op_skills->op_skill_level = $skills[$i+1];
             $op_skills->save();
         }
 
-        return redirect()->route('companies.home');
+        return redirect()->route('companies.home', $com_id);
     }
 
     /**
@@ -98,10 +98,16 @@ class OpportunityController extends Controller
     {
         $op_details = Opportunity::find($id);
         $com_details = Company::find($op_details->com_id);
+        $op_skills = DB::table('opportunity_skills AS os')
+            ->leftJoin('skills AS sk', 'sk.skill_id', '=', 'os.skill_id')
+            ->leftJoin('skill_categories as sct', 'sct.skill_cat_id', '=', 'sk.skill_cat_id')
+            ->where('os.op_id', $id)
+            ->get();
 
         return view('opportunities.show')
             ->with('op_details', $op_details)
             ->with('com_details', $com_details)
+            ->with('op_skills', $op_skills)
             ->with('title', $op_details->op_title . ' | ' . env('APP_NAME'));
     }
 

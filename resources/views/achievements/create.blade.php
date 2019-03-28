@@ -21,17 +21,17 @@
             {{ csrf_field() }}
 
             <div class="ui top attached tabular menu" id="tab-set">
-                <a class="item active" data-tab="first">Achievement Content</a>
-                <a class="item" data-tab="second">Skills & Competence Levels</a>
+                <a class="item active" data-tab="first">Content</a>
+                <a class="item" data-tab="second">Skills</a>
             </div>
             <div class="ui bottom attached tab segment active" data-tab="first">
 
                 <div class="field">
                     <div class="ui grid">
                         <div class="ui four wide column">
-                            <img id="avatar-preview" class="ui fluid rounded image"
+                            <img id="image-preview" class="ui fluid rounded image"
                                  src="{{ asset('png/ach_img_alt.jpg') }}"
-                                 alt="avatar">
+                                 alt="Achievement Image">
                         </div>
                         <div class="ui six wide middle aligned column">
                             <div class="field {{ $errors->has('image') ? 'error' : '' }}">
@@ -83,7 +83,7 @@
 
             </div>
 
-            <button type="submit" class="ui green left icon right floated labeled disabled button">
+            <button type="submit" id="submit" name="submit" class="ui green left icon right floated labeled disabled button">
                 <i class="plus icon"></i> Create Achievement
             </button>
 

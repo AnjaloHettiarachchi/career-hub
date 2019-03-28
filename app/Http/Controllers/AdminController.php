@@ -3,6 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
+use App\AreaOfExpertise;
+use App\Company;
+use App\CompanyUser;
+use App\DegreeProgram;
+use App\Faculty;
+use App\Skill;
+use App\SkillCategory;
+use App\Student;
+use App\StudentIdType;
+use App\StudentUser;
+use App\University;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -17,7 +28,31 @@ class AdminController extends Controller
 
     public function showDashboard()
     {
-        return view('admins.dashboard')->with('title', 'Admin Dashboard | ' . env('APP_NAME'));
+        $aoe_list = AreaOfExpertise::all();
+        $com_list = Company::all();
+        $dp_list = DegreeProgram::all();
+        $fac_list = Faculty::all();
+        $uni_list = University::all();
+        $skill_cat_list = SkillCategory::all();
+        $skill_list = Skill::all();
+        $sit_list = StudentIdType::all();
+        $stu_list = Student::all();
+        $stu_user_list = StudentUser::all();
+        $com_user_list = CompanyUser::all();
+
+        return view('admins.dashboard')
+            ->with('aoe_list', $aoe_list)
+            ->with('com_list', $com_list)
+            ->with('dp_list', $dp_list)
+            ->with('fac_list', $fac_list)
+            ->with('uni_list', $uni_list)
+            ->with('skill_cat_list', $skill_cat_list)
+            ->with('skill_list', $skill_list)
+            ->with('sit_list', $sit_list)
+            ->with('stu_list', $stu_list)
+            ->with('stu_user_list', $stu_user_list)
+            ->with('com_user_list', $com_user_list)
+            ->with('title', 'Admin Dashboard | ' . env('APP_NAME'));
     }
 
     public function showAdminRegister()

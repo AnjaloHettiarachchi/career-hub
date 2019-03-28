@@ -13,14 +13,16 @@
         <div class="ui container">
             <h1>
                 <a onclick="window.history.back()" href="#">
-                    <i class="left arrow circular blue inverted small icon" ></i>
+                    <i class="left arrow circular blue inverted small icon"></i>
                 </a>
                 {{ $op_details->op_title }}
             </h1>
             <span class="meta">
                 Opportunity by
-                <a class="ui image blue image label" href="/">
-                    <img class="ui right spaced avatar image" src="data:image/png;base64,{{ chunk_split(base64_encode($com_details->com_avatar)) }}" alt="{{ $com_details->com_title }}">
+                <a class="ui image blue image label" href="{{ route('companies.home', $com_details->com_id) }}">
+                    <img class="ui right spaced avatar image"
+                         src="data:image/png;base64,{{ chunk_split(base64_encode($com_details->com_avatar)) }}"
+                         alt="{{ $com_details->com_title }}">
                     <strong>{{ $com_details->com_title  }}</strong>
                     <div class="detail">
                         <script type="text/javascript">
@@ -31,6 +33,45 @@
             </span>
             <br><br>
             <p>{!! nl2br($op_details->op_desc) !!}</p>
+
+            <div class="ui dividing header">Required Skills</div>
+
+            <table class="ui inverted blue table">
+                <tbody>
+
+                @foreach($op_skills as $skill)
+
+                    <tr class="center aligned">
+                        <td>
+                            <div class="ui huge inverted header">{{ $skill->skill_title }}</div>
+                            <small>{{ $skill->skill_cat_name }}</small>
+                        </td>
+                        <td>
+                            @switch($skill->op_skill_level)
+                                @case(1)
+                                    Competence Level: <div class="ui label">Basic</div>
+                                    @break
+                                @case(2)
+                                    Competence Level: <div class="ui yellow label">Novice</div>
+                                    @break
+                                @case(3)
+                                    Competence Level: <div class="ui olive label">Intermediate</div>
+                                    @break
+                                @case(4)
+                                    Competence Level: <div class="ui green label">Advance</div>
+                                    @break
+                                @default
+                                    Competence Level: <div class="ui blue label">Expert</div>
+                                    @break
+                            @endswitch
+                        </td>
+                    </tr>
+
+                @endforeach
+
+                </tbody>
+            </table>
+
         </div>
     </div>
 @endsection

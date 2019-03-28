@@ -64,7 +64,6 @@ $(document).ready(function () {
                     }
 
                     $('#skills').val(skills);
-                    console.log($('#skills').val());
                 }
             });
     });

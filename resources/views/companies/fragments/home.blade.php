@@ -3,7 +3,7 @@
 
     @if (count($com_ops) > 0)
 
-        <div class="ui dividing header">Recent Opportunities</div>
+        <div class="ui dividing header">Recent Activities</div>
         <div class="ui feed">
         @foreach ($com_ops as $op)
 

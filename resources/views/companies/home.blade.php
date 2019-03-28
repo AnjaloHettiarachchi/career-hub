@@ -7,6 +7,8 @@
 @section('js')
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
     <script type="text/javascript" src="{{ asset('js/company.home.js') }}"></script>
+    {{-- Firebase --}}
+    <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
 @endsection
 
 @section('nav')
@@ -71,21 +73,24 @@
             </a>
             <div id="main-menu-right" class="right menu">
                 <a class="settings item">
-                    <i class="cogs icon"></i>
-                    Account Settings
+                    <i class="cog icon"></i>
+                    Settings
                 </a>
             </div>
         </div>
 
         @include('companies.fragments.home', ['com_ops' => $com_ops])
 
-        @include('companies.fragments.conversations')
+        @include('companies.fragments.conversations', ['com_details' => $com_details,
+                                                        'stu_list' => $stu_list,
+                                                        'com_con_list' => $com_con_list])
 
         @include('companies.fragments.opportunities', ['com_ops' => $com_ops])
 
         @include('companies.fragments.find')
 
-        @include('companies.fragments.settings')
+        @include('companies.fragments.settings', ['aoe_list' => $aoe_list,
+                                                    'com_details', $com_details])
 
     </div>
 @endsection

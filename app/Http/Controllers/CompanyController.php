@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\AreaOfExpertise;
 use App\Company;
+use App\Student;
+use App\StudentUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,13 +31,24 @@ class CompanyController extends Controller
             ->first();
 
         $com_ops = DB::table('opportunities')
-            ->where('com_id', $com_details->com_id)
+            ->where('com_id', $id)
             ->get();
+
+        $com_con_list = DB::table('conversations AS con')
+            ->leftJoin('students as stu', 'stu.stu_id', '=', 'con.stu_id')
+            ->where('con.com_id', $id)
+            ->get();
+
+        $aoe_list = AreaOfExpertise::all();
+        $stu_list = Student::all();
 
         return view('companies.home')
             ->with('com_details', $com_details)
             ->with('com_aoe', $com_aoe)
             ->with('com_ops', $com_ops)
+            ->with('aoe_list', $aoe_list)
+            ->with('stu_list', $stu_list)
+            ->with('com_con_list', $com_con_list)
             ->with('title', $com_details->com_title . ' | ' . env('APP_NAME'));
     }
 

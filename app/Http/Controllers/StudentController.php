@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Faculty;
 use App\Student;
 use App\StudentIdType;
@@ -44,6 +45,26 @@ class StudentController extends Controller
             ->select(['sk.skill_id', 'sk.skill_title', 'sc.skill_cat_id', 'sc.skill_cat_name', 'sts.stu_skill_level', 'sts.created_at', 'sts.updated_at'])
             ->get();
 
+        $stu_achs = DB::table('achievements')
+            ->where('stu_id', $id)
+            ->get();
+
+        $stu_ach_skills = DB::table('achievement_skills AS as')
+            ->leftJoin('achievements AS ac', 'ac.ach_id', '=', 'as.ach_id')
+            ->leftJoin('skills AS sk', 'sk.skill_id', '=', 'as.skill_id')
+            ->where('ac.stu_id', $id)
+            ->get();
+
+        $stu_con_list = DB::table('conversations AS con')
+            ->leftJoin('companies as com', 'com.com_id', '=', 'con.com_id')
+            ->where('con.stu_id', $id)
+            ->get();
+
+        $fac_list = Faculty::all();
+        $uni_list = University::all();
+        $sit_list = StudentIdType::all();
+        $com_list = Company::all();
+
         $name = explode(' ', $stu_details->stu_full_name);
         $first = reset($name);
         $last = end($name);
@@ -51,6 +72,13 @@ class StudentController extends Controller
         return view('students.home')
             ->with('stu_details', $stu_details)
             ->with('stu_skills', $stu_skills)
+            ->with('stu_achs', $stu_achs)
+            ->with('fac_list', $fac_list)
+            ->with('uni_list', $uni_list)
+            ->with('sit_list', $sit_list)
+            ->with('com_list', $com_list)
+            ->with('stu_con_list', $stu_con_list)
+            ->with('stu_ach_skills', $stu_ach_skills)
             ->with('title', $first . ' ' . $last . ' | ' . env('APP_NAME'));
     }
 
@@ -169,6 +197,11 @@ class StudentController extends Controller
         }
 
         return redirect()->route('students.home', $stu_id);
+    }
+
+    public function update(Request $request, int $id)
+    {
+
     }
 
 }

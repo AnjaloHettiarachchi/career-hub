@@ -18,7 +18,10 @@ class CreateAchievementsTable extends Migration
             $table->binary('ach_image')->nullable();
             $table->string('ach_title');
             $table->text('ach_desc');
+            $table->unsignedInteger('stu_id');
             $table->timestamps();
+
+            $table->foreign('stu_id')->references('stu_id')->on('students');
         });
     }
 

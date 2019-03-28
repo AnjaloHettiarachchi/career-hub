@@ -64,17 +64,33 @@ Route::prefix('student')->group(function () {
     Route::post('/create', 'StudentController@doCreate')->name('students.doCreate');
     Route::get('/skills', 'StudentController@showSkills')->name('students.showSkills');
     Route::post('/skills/save', 'StudentController@saveSkills')->name('students.saveSkills');
+    Route::put('/{id}', 'StudentController@update')->name('students.update');
 
     //Miscellaneous
     Route::get('/degList', 'StudentController@listDegreePrograms')->name('students.degreeList');
 
 });
 
+//Conversation Routes
+Route::prefix('conversations')->group(function () {
+
+    Route::post('/', 'ConversationController@store')->name('conversations.store');
+    Route::post('/get', 'ConversationController@getDocId')->name('conversations.get');
+
+});
+
 //Resources
 Route::resource('stuIdTypes', 'StudentIdTypeController');
+
 Route::resource('degreePrograms', 'DegreeProgramController');
+
 Route::resource('faculties', 'FacultyController');
+
 Route::resource('universities', 'UniversityController');
-Route::resource('opportunities', 'OpportunityController')->middleware('auth:company');
+
+Route::resource('opportunities', 'OpportunityController');
+
 Route::resource('skills', 'SkillController');
+
 Route::resource('achievements', 'AchievementController');
+
