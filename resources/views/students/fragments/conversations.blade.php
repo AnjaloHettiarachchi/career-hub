@@ -74,7 +74,7 @@
 
                 @else
 
-                    <p>Click on a contact to resume that Conversation.</p>
+                    <p>Click on a company to resume that Conversation.</p>
 
                 @endif
             </div>
