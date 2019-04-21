@@ -15,7 +15,7 @@ class CompanyController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:company');
+        $this->middleware('auth:company')->only(['showCreate', 'doCreate', 'listStudents']);
     }
 
     public function showHome($id)
@@ -105,6 +105,12 @@ class CompanyController extends Controller
 
         return redirect()->route('companies.home', $company->com_id);
 
+    }
+
+    public function listStudents()
+    {
+        $stu_list = DB::table('students')->get(['stu_id', 'stu_full_name AS title']);
+        return response()->json($stu_list);
     }
 
 }

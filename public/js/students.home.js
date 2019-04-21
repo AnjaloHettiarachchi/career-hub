@@ -1,14 +1,30 @@
 $(document).ready(function () {
 
     $('.ui.accordion').accordion();
-
     $('#fac, #uni, #sit').dropdown();
+
+    $.ajax({
+        url: '/student/comList',
+        method: 'GET',
+        success: function (res) {
+
+            $('#main-search').search({
+                source: res,
+                searchFields: ['title'],
+                transition: 'slide down',
+                onSelect: function (result) {
+                    window.location.href = '/company/' + result['com_id'] + '/home';
+                }
+            })
+
+        }
+    });
 
     $.ajax({
         url: '/student/degList',
         method: 'GET',
         success: function (res) {
-            $('.ui.search').search({
+            $('#deg-search').search({
                 type: 'category',
                 source: res,
                 searchFields: ['title'],

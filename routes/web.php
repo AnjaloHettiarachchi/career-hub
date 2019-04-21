@@ -48,6 +48,9 @@ Route::prefix('company')->group(function () {
     Route::get('/create', 'CompanyController@showCreate')->name('companies.showCreate');
     Route::post('/create', 'CompanyController@doCreate')->name('companies.doCreate');
 
+    //Miscellaneous
+    Route::get('/stuList', 'CompanyController@listStudents')->name('companies.stuList');
+
 
 });
 
@@ -67,7 +70,9 @@ Route::prefix('student')->group(function () {
     Route::put('/{id}', 'StudentController@update')->name('students.update');
 
     //Miscellaneous
+    Route::get('/comList', 'StudentController@listCompanies')->name('students.comList');
     Route::get('/degList', 'StudentController@listDegreePrograms')->name('students.degreeList');
+    Route::get('/testOps/{id}', 'StudentController@sortOpportunities')->name('students.testOps');
 
 });
 

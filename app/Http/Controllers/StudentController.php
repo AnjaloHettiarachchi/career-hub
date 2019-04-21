@@ -8,15 +8,26 @@ use App\Student;
 use App\StudentIdType;
 use App\StudentSkill;
 use App\University;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class StudentController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:student');
+        $this->middleware('auth:student')
+            ->only([
+                'listDegreePrograms',
+                'listCompanies',
+                'showCreate',
+                'doCreate',
+                'showSkills',
+                'saveSkills'
+            ]);
     }
 
     public function listDegreePrograms()
@@ -26,6 +37,13 @@ class StudentController extends Controller
             ->get(['deg_id', 'dp.fac_id', 'dp.uni_id', 'deg_title AS title', 'uni_title AS category']);
 
         return response()->json($degs_with_unies);
+    }
+
+    public function listCompanies()
+    {
+        $com_list = DB::table('companies')->get(['com_id', 'com_title AS title']);
+
+        return response()->json($com_list);
     }
 
     public function showHome($id)
@@ -64,6 +82,7 @@ class StudentController extends Controller
         $uni_list = University::all();
         $sit_list = StudentIdType::all();
         $com_list = Company::all();
+        $op_list = $this->getSortedOpportunities($this->sortOpportunities($id));
 
         $name = explode(' ', $stu_details->stu_full_name);
         $first = reset($name);
@@ -77,6 +96,7 @@ class StudentController extends Controller
             ->with('uni_list', $uni_list)
             ->with('sit_list', $sit_list)
             ->with('com_list', $com_list)
+            ->with('op_list', $op_list)
             ->with('stu_con_list', $stu_con_list)
             ->with('stu_ach_skills', $stu_ach_skills)
             ->with('title', $first . ' ' . $last . ' | ' . env('APP_NAME'));
@@ -97,8 +117,8 @@ class StudentController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Validation\ValidationException
+     * @return Response
+     * @throws ValidationException
      */
     public function doCreate(Request $request)
     {
@@ -166,8 +186,8 @@ class StudentController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return RedirectResponse
+     * @throws ValidationException
      */
     public function saveSkills(Request $request)
     {
@@ -199,8 +219,96 @@ class StudentController extends Controller
         return redirect()->route('students.home', $stu_id);
     }
 
-    public function update(Request $request, int $id)
+    public function sortOpportunities($id)
     {
+        $test = array();
+        $test1 = array();
+
+        $ops = DB::table('opportunities')
+            ->pluck('op_id')
+            ->toArray();
+
+        foreach ($ops as $op) {
+            $current_op_union = DB::table('opportunity_skills')
+                ->where('op_id', $op)
+                ->get(['skill_id'])
+                ->toArray();
+
+            $total = 0;
+            $num = 0;
+            $min = 0;
+
+            foreach ($current_op_union as $op_uni) {
+                $stu_skill_level = DB::table('student_skills')
+                    ->where('skill_id', $op_uni->skill_id)
+                    ->where('stu_id', $id)
+                    ->pluck('stu_skill_level')
+                    ->first();
+
+                if (!$stu_skill_level) {
+                    $stu_skill_level = 0;
+                }
+
+                $op_skill_level = DB::table('opportunity_skills')
+                    ->where('skill_id', $op_uni->skill_id)
+                    ->where('op_id', $op)
+                    ->pluck('op_skill_level')
+                    ->first();
+
+                if (!$op_skill_level) {
+                    $op_skill_level = 0;
+                }
+
+                // print $op_uni->skill_id . " --> " . $stu_skill_level . " - " . $op_skill_level . " = " . ($stu_skill_level - $op_skill_level);
+
+                if (($stu_skill_level - $op_skill_level) < 0) {
+                    $num += 1;
+                }
+                $total += ($stu_skill_level - $op_skill_level);
+                if ($min == 0) {
+                    $min = ($stu_skill_level - $op_skill_level);
+                } elseif ($min > ($stu_skill_level - $op_skill_level)) {
+                    $min = ($stu_skill_level - $op_skill_level);
+                }
+                // print "<br>";
+            }
+
+            /* array_push($test, array(
+                "op_id" => $op,
+                "total" => $total,
+                "num" => $num,
+                "min" => $min
+            )); */
+
+            $test1[$op] = $total;
+            // print "<h1>Total: $total</h1><br><br>";
+        }
+
+        arsort($test1);
+        return $test1;
+
+        // print "<pre>";
+        // print_r($test1);
+        // print "</pre>";
+
+    }
+
+    public function getSortedOpportunities($array)
+    {
+        $res = array();
+
+        foreach ($array as $key => $value) {
+
+            $op = DB::table('opportunities AS op')
+                ->leftJoin('companies AS com', 'com.com_id', '=', 'op.com_id')
+                ->where('op.op_id', $key)
+                ->get();
+
+            array_push($res, $op);
+
+        }
+
+        return $res;
 
     }
 

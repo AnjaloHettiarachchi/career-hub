@@ -22,13 +22,17 @@
 
 @section('nav')
 
-    <a class="item" style="background-color: #BD2828" href="{{ route('students.logout') }}"
-       onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-        <h4><i class="sign-out icon"></i>LOGOUT</h4>
-    </a>
-    <form id="logout-form" action="{{ route('students.logout') }}" method="POST" style="display: none;">
-        {{ csrf_field() }}
-    </form>
+    @auth('student')
+
+        <a class="item" style="background-color: #BD2828" href="{{ route('students.logout') }}"
+           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+            <h4><i class="sign-out icon"></i>LOGOUT</h4>
+        </a>
+        <form id="logout-form" action="{{ route('students.logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
+
+    @endauth
 
 @endsection
 
@@ -58,48 +62,93 @@
 
         </div>
 
-        <div id="main-menu" class="ui secondary pointing blue stackable menu">
-            <a class="home item active">
-                <i class="home icon"></i>
-                Home
-            </a>
-            <a class="con item">
-                <i class="comments icon"></i>
-                Conversations
-            </a>
-            <a class="ach item">
-                <i class="trophy icon"></i>
-                Skills & Achievements
-            </a>
-            <a class="find item">
-                <i class="search icon"></i>
-                Find Opportunities
-            </a>
-            <div id="main-menu-right" class="right menu">
-                <a class="settings item">
-                    <i class="cog icon"></i>
-                    Settings
-                </a>
+        <br>
+
+        @auth('student')
+            <div id="main-search" class="ui fluid search">
+                <div class="ui icon fluid input">
+                    <input class="prompt" type="text" placeholder="Search for a company..." autofocus>
+                    <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
             </div>
+        @endauth
+
+        <div id="main-menu" class="ui secondary pointing blue stackable menu">
+
+            @auth('student')
+
+                <a class="home item active">
+                    <i class="home icon"></i>
+                    Home
+                </a>
+                <a class="con item">
+                    <i class="comments icon"></i>
+                    Conversations
+                </a>
+                <a class="ach item">
+                    <i class="trophy icon"></i>
+                    Skills & Achievements
+                </a>
+                <a class="find item">
+                    <i class="search icon"></i>
+                    Find Opportunities
+                </a>
+                <div id="main-menu-right" class="right menu">
+                    <a class="settings item">
+                        <i class="cog icon"></i>
+                        Settings
+                    </a>
+                </div>
+
+            @elseauth('company')
+
+                <script type="text/javascript">
+
+                    $(document).ready(() => {
+                        $('#ach-content').css('display', 'block');
+                        $('.ach.item').addClass('active')
+                    })
+
+                </script>
+
+                <a class="ach item">
+                    <i class="trophy icon"></i>
+                    Skills & Achievements
+                </a>
+
+            @endauth
+
         </div>
 
-        @include('students.fragments.home', ['stu_skills' => $stu_skills,
-                                                'stu_achs' => $stu_achs])
+        @auth('student')
 
-        @include('students.fragments.conversations', ['stu_details' => $stu_details,
-                                                        'com_list', $com_list,
-                                                        'stu_con_list', $stu_con_list ])
+            @include('students.fragments.home', ['stu_skills' => $stu_skills,
+                                                    'stu_achs' => $stu_achs,
+                                                    'stu_con_list' => $stu_con_list ])
 
-        @include('students.fragments.achievements', ['stu_skills' => $stu_skills,
+            @include('students.fragments.conversations', ['stu_details' => $stu_details,
+                                                            'com_list', $com_list,
+                                                            'stu_con_list', $stu_con_list ])
+
+            @include('students.fragments.achievements', ['stu_skills' => $stu_skills,
+                                                            'stu_achs' => $stu_achs,
+                                                            'stu_ach_skills' => $stu_ach_skills ])
+
+            @include('students.fragments.opportunities', ['op_list', $op_list ])
+
+            @include('students.fragments.settings', ['stu_details' => $stu_details,
+                                                        'fac_list' => $fac_list,
+                                                        'uni_list' => $uni_list,
+                                                        'sit_list' => $sit_list ])
+
+        @elseauth('company')
+
+            @include('students.fragments.achievements', ['stu_skills' => $stu_skills,
                                                         'stu_achs' => $stu_achs,
-                                                        'stu_ach_skills' => $stu_ach_skills])
+                                                        'stu_ach_skills' => $stu_ach_skills ])
 
-        @include('students.fragments.opportunities')
-
-        @include('students.fragments.settings', ['stu_details' => $stu_details,
-                                                    'fac_list' => $fac_list,
-                                                    'uni_list' => $uni_list,
-                                                    'sit_list' => $sit_list ])
+        @endauth
 
     </div>
 @endsection

@@ -23,11 +23,15 @@
 
             @endforeach
 
+            @auth('company')
+
                 <a class="ui blue card" href="{{ route('opportunities.create') }}">
                     <div class="content">
                         <div class="ui huge header">Create<br>A New<br>Opportunity</div>
                     </div>
                 </a>
+
+            @endauth
 
         </div>
 
@@ -40,7 +44,9 @@
             </div>
             <p>An opportunity can be used to inform the students with possible recruitment or training positions of your
                 company.</p>
-            <a class="ui primary button" href="{{ route('opportunities.create') }}">Create a New Opportunity</a>
+            @auth('company')
+                <a class="ui primary button" href="{{ route('opportunities.create') }}">Create a New Opportunity</a>
+            @endauth
         </div>
 
     @endif

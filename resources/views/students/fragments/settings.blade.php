@@ -55,7 +55,7 @@
                     </select>
                 </div>
 
-                <div class="field {{ $errors->has('deg') ? 'error' : '' }}">
+                <div id="deg-search" class="field {{ $errors->has('deg') ? 'error' : '' }}">
                     <label for="deg">Degree Program</label>
                     <div class="ui category fluid search">
                         <div class="ui icon input">

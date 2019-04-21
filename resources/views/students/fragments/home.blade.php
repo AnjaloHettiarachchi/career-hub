@@ -1,7 +1,7 @@
 <div id="home-content" class="ui content-div segment">
     <h1>Home</h1>
 
-    @if (count($stu_skills) > 0 || count($stu_achs) > 0)
+    @if (count($stu_skills) > 0 || count($stu_achs) > 0 || count($stu_con_list) > 0)
 
         <div class="ui dividing header">Recent Activities</div>
 
@@ -15,7 +15,8 @@
                     </div>
                     <div class="content">
                         <div class="summary">
-                            Your skill listing is completed. Now you have <a onclick="showTab('skill')">{{ count($stu_skills) }} skills</a>.
+                            Congratulations! You have added <a
+                                    onclick="showTab('skill')">{{ count($stu_skills) }} skills</a> to your skills list.
                             <div class="date">
                                 <script type="text/javascript">
                                     document.write(moment("{{ $stu_skills->toArray()[0]->updated_at }}").fromNow())
@@ -39,10 +40,39 @@
                         </div>
                         <div class="content">
                             <div class="summary">
-                                You have posted an new Achievement as <a href="{{ route('achievements.show', $ach->ach_id) }}">{{ $ach->ach_title }}</a>.
+                                You have posted an new Achievement as <a
+                                        href="{{ route('achievements.show', $ach->ach_id) }}">{{ $ach->ach_title }}</a>.
                                 <div class="date">
                                     <script type="text/javascript">
                                         document.write(moment("{{ $ach->created_at }}").fromNow())
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            @endforeach
+
+        @endif
+
+        @if (count($stu_con_list) > 0)
+
+            @foreach ($stu_con_list as $con)
+
+                <div class="ui feed">
+                    <div class="event">
+                        <div class="label">
+                            <i class="comments circular inverted blue middle aligned icon"></i>
+                        </div>
+                        <div class="content">
+                            <div class="summary">
+                                You have started a new conversation with <a
+                                        href="{{ route('companies.home', $con->com_id) }}">{{ $con->com_title }}</a>. You can resume that from
+                                <a onclick="showTab('con')">here</a>.
+                                <div class="date">
+                                    <script type="text/javascript">
+                                        document.write(moment("{{ $con->created_at }}").fromNow())
                                     </script>
                                 </div>
                             </div>

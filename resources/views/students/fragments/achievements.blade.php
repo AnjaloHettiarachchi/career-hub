@@ -30,11 +30,16 @@
             </div>
 
         </div>
-        <div class="ui bottom attached segment">
-            <a class="ui primary left icon fluid button" href="{{ route('students.showSkills') }}">
-                <i class="edit icon"></i> Edit Skills
-            </a>
-        </div>
+
+        @auth('student')
+
+            <div class="ui bottom attached segment">
+                <a class="ui primary left icon fluid button" href="{{ route('students.showSkills') }}">
+                    <i class="edit icon"></i> Edit Skills
+                </a>
+            </div>
+
+        @endauth
 
     @else
         <div class="ui placeholder center aligned segment">
@@ -83,11 +88,13 @@
 
             @endforeach
 
-            <a class="ui blue card" href="{{ route('achievements.create') }}">
-                <div class="content">
-                    <div class="ui huge header">Create<br>A New<br>Achievement</div>
-                </div>
-            </a>
+            @auth('student')
+                <a class="ui blue card" href="{{ route('achievements.create') }}">
+                    <div class="content">
+                        <div class="ui huge header">Create<br>A New<br>Achievement</div>
+                    </div>
+                </a>
+            @endauth
 
         </div>
 

@@ -36,7 +36,7 @@ class StudentLoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $errors = [];
+        $exc = [];
 
         try {
             $this->validate($request, [
@@ -85,16 +85,16 @@ class StudentLoginController extends Controller
                     ->withInput();
             }
         } catch (BindException $e) {
-            array_push($errors, $e->getMessage());
+            array_push($exc, $e->getMessage());
         } catch (PasswordRequiredException $e) {
-            array_push($errors, $e->getMessage());
+            array_push($exc, $e->getMessage());
         } catch (UsernameRequiredException $e) {
-            array_push($errors, $e->getMessage());
+            array_push($exc, $e->getMessage());
         }
 
         // the user doesn't exist in the LDAP server or the password is wrong
         return redirect()->back()
-            ->with('errors', $errors)
+            ->with('exc', $exc)
             ->withInput();
     }
 

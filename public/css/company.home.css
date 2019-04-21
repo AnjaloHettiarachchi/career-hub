@@ -43,10 +43,11 @@ ul{
 ul li{
     display:inline-block;
     clear: both;
-    padding: 1%;
+    padding: 1% 2% 1% 2%;
     border-radius: 30px;
     margin-bottom: 2px;
     font-family: "SF Pro Text", Helvetica, Arial, sans-serif;
+    max-width: 50%;
 }
 
 .him {

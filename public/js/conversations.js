@@ -34,9 +34,7 @@ function startConversation(ele, mode, sender, receiver) {
 
     $('#chat-room')
         .removeClass('center', 'aligned')
-        .html(`<ul id="messages">
-                                <div class="ui horizontal divider">` + moment(time).format('DD MMMM YYYY') + `</div>
-                           </ul>`);
+        .html(`<ul id="messages"></ul>`);
 
     if (mode === 's2c') {
 
@@ -59,7 +57,7 @@ function startConversation(ele, mode, sender, receiver) {
 
                 query = db.collection('conversations')
                     .doc(sender + '_' + receiver)
-                    .collection(moment(new Date().getTime()).format('DD-MM-YYYY'))
+                    .collection('messages')
                     .orderBy('timestamp')
                     .limit(12);
 
@@ -117,7 +115,7 @@ function startConversation(ele, mode, sender, receiver) {
 
                 query = db.collection('conversations')
                     .doc(sender + '_' + receiver)
-                    .collection(moment(new Date().getTime()).format('DD-MM-YYYY'))
+                    .collection('messages')
                     .orderBy('timestamp')
                     .limit(12);
 
@@ -159,6 +157,7 @@ function startConversation(ele, mode, sender, receiver) {
 
 function resumeConversation(ele, mode, sender, receiver) {
 
+    $(ele).siblings().removeClass('active');
     $(ele).addClass('active');
 
     let time = new Date().getTime();
@@ -177,9 +176,7 @@ function resumeConversation(ele, mode, sender, receiver) {
 
     $('#chat-room')
         .removeClass('center', 'aligned')
-        .html(`<ul id="messages">
-                                <div class="ui horizontal divider">` + moment(time).format('DD MMMM YYYY') + `</div>
-                           </ul>`);
+        .html(`<ul id="messages"></ul>`);
 
     if (mode === 's2c') {
 
@@ -194,7 +191,7 @@ function resumeConversation(ele, mode, sender, receiver) {
 
                 query = db.collection('conversations')
                     .doc(res)
-                    .collection(moment(new Date().getTime()).format('DD-MM-YYYY'))
+                    .collection('messages')
                     .orderBy('timestamp')
                     .limit(12);
 
@@ -245,7 +242,7 @@ function resumeConversation(ele, mode, sender, receiver) {
 
                 query = db.collection('conversations')
                     .doc(res)
-                    .collection(moment(new Date().getTime()).format('DD-MM-YYYY'))
+                    .collection('messages')
                     .orderBy('timestamp')
                     .limit(12);
 
@@ -290,7 +287,7 @@ function resumeConversation(ele, mode, sender, receiver) {
 function saveMessage(docId, sender, message) {
     return db.collection('conversations')
         .doc(docId)
-        .collection(moment(new Date().getTime()).format('DD-MM-YYYY'))
+        .collection('messages')
         .add({
             from: sender,
             text: message,

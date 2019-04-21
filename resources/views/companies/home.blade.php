@@ -13,6 +13,8 @@
 
 @section('nav')
 
+    @auth('company')
+
         <a class="item" style="background-color: #BD2828" href="{{ route('companies.logout') }}"
            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
             <h4><i class="sign-out icon"></i>LOGOUT</h4>
@@ -20,6 +22,8 @@
         <form id="logout-form" action="{{ route('companies.logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
+
+    @endauth
 
 @endsection
 
@@ -53,44 +57,77 @@
             </div>
 
         </div>
+        <br>
+
+        @auth('company')
+            <div id="main-search" class="ui fluid search">
+                <div class="ui icon fluid input">
+                    <input class="prompt" type="text" placeholder="Search for a student..." autofocus>
+                    <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+        @endauth
 
         <div id="main-menu" class="ui secondary pointing blue stackable menu">
-            <a class="home item active">
-                <i class="home icon"></i>
-                Home
-            </a>
-            <a class="con item">
-                <i class="comments icon"></i>
-                Conversations
-            </a>
-            <a class="op item">
-                <i class="users icon"></i>
-                Opportunities
-            </a>
-            <a class="find item">
-                <i class="search icon"></i>
-                Find Candidates
-            </a>
-            <div id="main-menu-right" class="right menu">
-                <a class="settings item">
-                    <i class="cog icon"></i>
-                    Settings
+            @auth('company')
+
+                <a class="home item active">
+                    <i class="home icon"></i>
+                    Home
                 </a>
-            </div>
+                <a class="con item">
+                    <i class="comments icon"></i>
+                    Conversations
+                </a>
+                <a class="op item">
+                    <i class="users icon"></i>
+                    Opportunities
+                </a>
+                <div id="main-menu-right" class="right menu">
+                    <a class="settings item">
+                        <i class="cog icon"></i>
+                        Settings
+                    </a>
+                </div>
+
+            @elseauth('student')
+
+                <script type="text/javascript">
+
+                    $(document).ready(() => {
+                        $('#op-content').css('display', 'block');
+                        $('.op.item').addClass('active')
+                    })
+
+                </script>
+
+                <a class="op item">
+                    <i class="users icon"></i>
+                    Opportunities
+                </a>
+
+            @endauth
         </div>
 
-        @include('companies.fragments.home', ['com_ops' => $com_ops])
+        @auth('company')
 
-        @include('companies.fragments.conversations', ['com_details' => $com_details,
-                                                        'stu_list' => $stu_list,
-                                                        'com_con_list' => $com_con_list])
+            @include('companies.fragments.home', ['com_ops' => $com_ops])
 
-        @include('companies.fragments.opportunities', ['com_ops' => $com_ops])
+            @include('companies.fragments.conversations', ['com_details' => $com_details,
+                                                            'stu_list' => $stu_list,
+                                                            'com_con_list' => $com_con_list])
 
-        @include('companies.fragments.find')
+            @include('companies.fragments.opportunities', ['com_ops' => $com_ops])
 
-        @include('companies.fragments.settings', ['aoe_list' => $aoe_list,
-                                                    'com_details', $com_details])
+            @include('companies.fragments.settings', ['aoe_list' => $aoe_list,
+                                                        'com_details', $com_details])
+
+        @elseauth('student')
+
+            @include('companies.fragments.opportunities', ['com_ops' => $com_ops])
+
+        @endauth
 
     </div>
 @endsection

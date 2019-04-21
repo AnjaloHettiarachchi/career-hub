@@ -4,17 +4,6 @@
     <link rel="stylesheet" href="{{ asset('css/company.register.css') }}">
 @endsection
 
-@section('js')
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.close.icon').on('click', function () {
-                    $(this).closest('.message').transition('fade down');
-                }
-            );
-        });
-    </script>
-@endsection
-
 @section('content')
     <div id="container" class="ui clearing segment">
         <h1>Company <i class="angle right icon"></i> Register</h1>
