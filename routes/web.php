@@ -100,6 +100,7 @@ Route::resource('faculties', 'FacultyController');
 Route::resource('universities', 'UniversityController');
 
 Route::resource('opportunities', 'OpportunityController');
+Route::get('/testCans/{id}', 'OpportunityController@sortCandidates')->name('opportunity.testCans');
 
 Route::resource('skills', 'SkillController');
 

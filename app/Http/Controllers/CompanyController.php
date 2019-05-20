@@ -124,28 +124,4 @@ class CompanyController extends Controller
         return response()->json($stu_list);
     }
 
-    public function sortCandidates($op_id)
-    {
-        $candiArray = array();
-        $stuIdList = DB::table('students')
-            ->pluck('stu_id')
-            ->toArray();
-
-        foreach ($stuIdList as $stuId) {
-            $current_stu_union = DB::table('student_skills')
-                ->where('stu_id', $stuId)
-                ->get(['skill_id'])
-                ->toArray();
-
-            $total = 0;
-            $min = 0;
-            $num = 0;
-
-            foreach ($current_stu_union as $stu_union) {
-                
-            }
-
-        }
-    }
-
 }

@@ -234,7 +234,6 @@ class StudentController extends Controller
     public function sortOpportunities($stu_id)
     {
         $test = array();
-        $test1 = array();
 
         $ops = DB::table('opportunities')
             ->pluck('op_id')
@@ -276,44 +275,63 @@ class StudentController extends Controller
                 if (($stu_skill_level - $op_skill_level) < 0) {
                     $num += 1;
                 }
+
                 $total += ($stu_skill_level - $op_skill_level);
+
                 if ($min == 0) {
                     $min = ($stu_skill_level - $op_skill_level);
                 } elseif ($min > ($stu_skill_level - $op_skill_level)) {
                     $min = ($stu_skill_level - $op_skill_level);
                 }
+
                 // print "<br>";
             }
 
-            /* array_push($test, array(
+            array_push($test, array(
                 "op_id" => $op,
                 "total" => $total,
                 "num" => $num,
                 "min" => $min
-            )); */
+            ));
 
-            $test1[$op] = $total;
             // print "<h1>Total: $total</h1><br><br>";
         }
 
-        arsort($test1);
-        return $test1;
+        // print_r(array_reverse(array_column($this->op_sort($test), 'op_id')));
 
         // print "<pre>";
-        // print_r($test1);
+        // print_r($this->op_sort($test));
         // print "</pre>";
 
+        return array_reverse(array_column($this->sort_array($test), 'op_id'));
+
+    }
+
+    public function sort_array($array)
+    {
+        usort($array, function ($a, $b) {
+            $res = $a['total'] <=> $b['total'];
+            if ($res == 0) {
+                $res = $a['min'] <=> $b['min'];
+                if ($res == 0) {
+                    $res = $a['num'] <=> $b['num'];
+                }
+            }
+            return $res;
+        });
+
+        return $array;
     }
 
     public function getSortedOpportunities($array)
     {
         $res = array();
 
-        foreach ($array as $key => $value) {
+        foreach ($array as $value) {
 
             $op = DB::table('opportunities AS op')
                 ->leftJoin('companies AS com', 'com.com_id', '=', 'op.com_id')
-                ->where('op.op_id', $key)
+                ->where('op.op_id', $value)
                 ->get();
 
             array_push($res, $op);

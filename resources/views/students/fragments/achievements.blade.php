@@ -1,8 +1,8 @@
 <div id="ach-content" class="ui content-div segment">
     <h1>Skills & Achievements</h1>
 
-    <div class="ui dividing header">Skills</div>
     @if (count($stu_skills) > 0)
+        <div class="ui dividing header">Skills</div>
 
         <div class="ui top attached segment">
 
@@ -42,19 +42,28 @@
         @endauth
 
     @else
-        <div class="ui placeholder center aligned segment">
-            <div class="ui icon header">
-                <i class="star icon"></i>
-                There are no skills listed.
+        @auth('student')
+            <div class="ui placeholder center aligned segment">
+                <div class="ui icon header">
+                    <i class="star icon"></i>
+                    There are no skills listed.
+                </div>
+                <p>Your skills will be used to find suitable career opportunities for you.
+                    So let's start by adding some new Skills.</p>
+                <a class="ui primary button" href="{{ route('students.showSkills') }}">Add Skills</a>
             </div>
-            <p>Your skills will be used to find suitable career opportunities for you.
-                So let's start by adding some new Skills.</p>
-            <a class="ui primary button" href="{{ route('students.showSkills') }}">Add Skills</a>
-        </div>
+        @elseauth('company')
+            <div class="ui placeholder center aligned segment">
+                <div class="ui icon header">
+                    <i class="star icon"></i>
+                    Student have not listed any skills.
+                </div>
+            </div>
+        @endauth
     @endif
 
-    <div class="ui dividing header">Achievements</div>
     @if (count($stu_achs) > 0)
+        <div class="ui dividing header">Achievements</div>
 
         <div class="ui raised four link stackable cards">
             @foreach ($stu_achs as $ach)
@@ -99,16 +108,26 @@
         </div>
 
     @else
-        <div class="ui dividing header">Achievements</div>
-        <div class="ui placeholder center aligned segment">
-            <div class="ui icon header">
-                <i class="trophy icon"></i>
-                You have not posted any achievements yet.
+        @auth('student')
+            <div class="ui dividing header">Achievements</div>
+            <div class="ui placeholder center aligned segment">
+                <div class="ui icon header">
+                    <i class="trophy icon"></i>
+                    You have not posted any achievements yet.
+                </div>
+                <p>Your achievements will be used to find suitable career opportunities for you.
+                    So let's start by adding some new Achievements.</p>
+                <a class="ui primary button" href="{{ route('achievements.create') }}">Add Achievements</a>
             </div>
-            <p>Your achievements will be used to find suitable career opportunities for you.
-                So let's start by adding some new Achievements.</p>
-            <a class="ui primary button" href="{{ route('achievements.create') }}">Add Achievements</a>
-        </div>
+        @elseauth('company')
+            <div class="ui dividing header">Achievements</div>
+            <div class="ui placeholder center aligned segment">
+                <div class="ui icon header">
+                    <i class="trophy icon"></i>
+                    Student have not posted any achievements.
+                </div>
+            </div>
+        @endauth
     @endif
 
 </div>

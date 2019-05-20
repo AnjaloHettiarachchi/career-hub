@@ -100,6 +100,8 @@ class OpportunityController extends Controller
     {
         $op_details = Opportunity::find($id);
         $com_details = Company::find($op_details->com_id);
+        $candidate_list = $this->getSortedCandidates($this->sortCandidates($id));
+
         $op_skills = DB::table('opportunity_skills AS os')
             ->leftJoin('skills AS sk', 'sk.skill_id', '=', 'os.skill_id')
             ->leftJoin('skill_categories as sct', 'sct.skill_cat_id', '=', 'sk.skill_cat_id')
@@ -110,7 +112,108 @@ class OpportunityController extends Controller
             ->with('op_details', $op_details)
             ->with('com_details', $com_details)
             ->with('op_skills', $op_skills)
+            ->with('candi_list', $candidate_list)
             ->with('title', $op_details->op_title . ' | ' . env('APP_NAME'));
+    }
+
+    public function sortCandidates($op_id)
+    {
+        $candiArray = array();
+
+        $students = DB::table('students')
+            ->pluck('stu_id')
+            ->toArray();
+
+        foreach ($students as $student) {
+            $current_stu_union = DB::table('student_skills')
+                ->where('stu_id', $student)
+                ->get(['skill_id'])
+                ->toArray();
+
+            $total = 0;
+            $min = 0;
+            $num = 0;
+
+            foreach ($current_stu_union as $stu_union) {
+                $stu_skill_level = DB::table('student_skills')
+                    ->where('skill_id', $stu_union->skill_id)
+                    ->where('stu_id', $student)
+                    ->pluck('stu_skill_level')
+                    ->first();
+
+                if (!$stu_skill_level) {
+                    $stu_skill_level = 0;
+                }
+
+                $op_skill_level = DB::table('opportunity_skills')
+                    ->where('skill_id', $stu_union->skill_id)
+                    ->where('op_id', $op_id)
+                    ->pluck('op_skill_level')
+                    ->first();
+
+                if (!$op_skill_level) {
+                    $op_skill_level = 0;
+                }
+
+                if (($stu_skill_level - $op_skill_level) < 0) {
+                    $num += 1;
+                }
+
+                $total += ($stu_skill_level - $op_skill_level);
+
+                if ($min == 0) {
+                    $min = ($stu_skill_level - $op_skill_level);
+                } elseif ($min > ($stu_skill_level - $op_skill_level)) {
+                    $min = ($stu_skill_level - $op_skill_level);
+                }
+            }
+
+            array_push($candiArray, array(
+                "stu_id" => $student,
+                "total" => $total,
+                "num" => $num,
+                "min" => $min
+            ));
+
+        }
+
+        return array_reverse(array_column($this->sort_array($candiArray), 'stu_id'));
+    }
+
+    public function sort_array($array)
+    {
+        usort($array, function ($a, $b) {
+            $res = $a['total'] <=> $b['total'];
+            if ($res == 0) {
+                $res = $a['min'] <=> $b['min'];
+                if ($res == 0) {
+                    $res = $a['num'] <=> $b['num'];
+                }
+            }
+            return $res;
+        });
+
+        return $array;
+    }
+
+    public function getSortedCandidates($array)
+    {
+        $res = array();
+
+        foreach ($array as $value) {
+
+            $op = DB::table('students AS stu')
+                ->leftJoin('degree_programs AS deg', 'deg.deg_id', '=', 'stu.deg_id')
+                ->leftJoin('universities AS uni', 'uni.uni_id', '=', 'deg.uni_id')
+                ->where('stu.stu_id', $value)
+                ->get();
+
+            array_push($res, $op);
+
+        }
+
+        return $res;
+
     }
 
     /**

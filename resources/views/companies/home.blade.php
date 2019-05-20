@@ -10,43 +10,47 @@
     {{-- Firebase --}}
     <script src="https://www.gstatic.com/firebasejs/5.9.1/firebase.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#request').on('click', function () {
+    @auth('student')
 
-                $('#request-modal')
-                    .modal({
-                        closable: false,
-                        onApprove: function () {
-                            let stu_id = {!! $stu_visitor->stu_id !!};
-                            let com_id = {!! $com_details->com_id !!};
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#request').on('click', function () {
 
-                            $('#loader-modal')
-                                .modal({closable: false})
-                                .modal('show');
+                    $('#request-modal')
+                        .modal({
+                            closable: false,
+                            onApprove: function () {
+                                let stu_id = {!! $stu_visitor->stu_id !!};
+                                let com_id = {!! $com_details->com_id !!};
 
-                            $.ajax({
-                                url: '/student/generate',
-                                method: 'GET',
-                                data: {stu_id: stu_id, com_id: com_id},
-                                dataType: 'JSON',
-                                success: function (res) {
-                                    $('#loader-modal').modal('close');
+                                $('#loader-modal')
+                                    .modal({closable: false})
+                                    .modal('show');
 
-                                    if (res.hasOwnProperty('success')) {
-                                        $('#success-modal').modal('show');
-                                    } else {
-                                        $('#error-modal').modal('show');
+                                $.ajax({
+                                    url: '/student/generate',
+                                    method: 'GET',
+                                    data: {stu_id: stu_id, com_id: com_id},
+                                    dataType: 'JSON',
+                                    success: function (res) {
+                                        $('#loader-modal').modal('close');
+
+                                        if (res.hasOwnProperty('success')) {
+                                            $('#success-modal').modal('show');
+                                        } else {
+                                            $('#error-modal').modal('show');
+                                        }
                                     }
-                                }
-                            })
+                                })
 
-                        }
-                    }).modal('show');
+                            }
+                        }).modal('show');
 
-            });
-        })
-    </script>
+                });
+            })
+        </script>
+
+    @endauth
 
 @endsection
 

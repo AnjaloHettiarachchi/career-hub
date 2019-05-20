@@ -5,3 +5,15 @@
 .meta {
     color: grey;
 }
+
+table tr td {
+    cursor: pointer;
+}
+
+table thead {
+    display: none;
+}
+
+.ui.table td .image {
+    max-width: 5vw;
+}
