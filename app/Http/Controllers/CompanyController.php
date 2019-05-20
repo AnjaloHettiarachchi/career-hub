@@ -20,6 +20,8 @@ class CompanyController extends Controller
 
     public function showHome($id)
     {
+        $visiting_stu_details = null;
+
         $com_details = DB::table('companies')
             ->where('com_user_id', $id)
             ->get()
@@ -31,16 +33,24 @@ class CompanyController extends Controller
             ->first();
 
         $com_ops = DB::table('opportunities')
-            ->where('com_id', $id)
+            ->where('com_id', $com_details->com_id)
             ->get();
 
         $com_con_list = DB::table('conversations AS con')
             ->leftJoin('students as stu', 'stu.stu_id', '=', 'con.stu_id')
-            ->where('con.com_id', $id)
+            ->where('con.com_id', $com_details->com_id)
             ->get();
 
         $aoe_list = AreaOfExpertise::all();
         $stu_list = Student::all();
+
+        if (Auth::guard('student')->check()) {
+            $visiting_stu_details = DB::table('students AS stu')
+                ->leftJoin('degree_programs AS deg', 'deg.deg_id', '=', 'stu.deg_id')
+                ->leftJoin('universities AS uni', 'uni.uni_id', '=', 'deg.uni_id')
+                ->where('stu_user_id', Auth::guard('student')->user()->stu_user_id)
+                ->get()->first();
+        }
 
         return view('companies.home')
             ->with('com_details', $com_details)
@@ -49,6 +59,7 @@ class CompanyController extends Controller
             ->with('aoe_list', $aoe_list)
             ->with('stu_list', $stu_list)
             ->with('com_con_list', $com_con_list)
+            ->with('stu_visitor', $visiting_stu_details)
             ->with('title', $com_details->com_title . ' | ' . env('APP_NAME'));
     }
 
@@ -111,6 +122,30 @@ class CompanyController extends Controller
     {
         $stu_list = DB::table('students')->get(['stu_id', 'stu_full_name AS title']);
         return response()->json($stu_list);
+    }
+
+    public function sortCandidates($op_id)
+    {
+        $candiArray = array();
+        $stuIdList = DB::table('students')
+            ->pluck('stu_id')
+            ->toArray();
+
+        foreach ($stuIdList as $stuId) {
+            $current_stu_union = DB::table('student_skills')
+                ->where('stu_id', $stuId)
+                ->get(['skill_id'])
+                ->toArray();
+
+            $total = 0;
+            $min = 0;
+            $num = 0;
+
+            foreach ($current_stu_union as $stu_union) {
+                
+            }
+
+        }
     }
 
 }

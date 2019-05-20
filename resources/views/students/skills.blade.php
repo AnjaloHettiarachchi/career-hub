@@ -6,7 +6,6 @@
         <script type="text/javascript">
             $(document).ready(() => {
                 $('#skill-list').val('{{ $skill_array }}');
-                console.log($('#skill-list').val());
             })
         </script>
     @endif

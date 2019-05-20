@@ -47,12 +47,12 @@
             <div class="ui dividing huge header">Student Management</div>
             <div class="ui raised three link stackable cards">
 
-                <div class="ui card">
+                <div class="ui card" onclick="window.location.href='{{ route('admin.sections.student') }}'">
                     <div class="image">
                         <img src="{{ asset('png/stu_banner.jpg') }}" alt="image">
                     </div>
                     <div class="content">
-                        <div class="ui huge header">All Students</div>
+                        <div class="ui huge header">Student Accounts</div>
                     </div>
                     <div class="extra content">
                         {{ count($stu_list) }} Students
@@ -112,7 +112,7 @@
             <div class="ui dividing huge header">Company Management</div>
             <div class="ui raised three link stackable cards">
 
-                <div class="ui card">
+                <div class="ui card" onclick="window.location.href='{{ route('admin.sections.companies') }}'">
                     <div class="image">
                         <img src="{{ asset('png/com_banner.jpg') }}" alt="image">
                     </div>

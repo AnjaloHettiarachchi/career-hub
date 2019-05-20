@@ -30,6 +30,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/register', 'AdminController@doAdminRegister')->name('admins.doRegister');
     Route::get('/dashboard', 'AdminController@showDashboard')->name('admins.dashboard');
 
+    Route::get('/students', 'AdminSectionsController@students')->name('admin.sections.student');
+    Route::get('/companies', 'AdminSectionsController@companies')->name('admin.sections.companies');
+
 });
 
 //Company Routes
@@ -73,6 +76,9 @@ Route::prefix('student')->group(function () {
     Route::get('/comList', 'StudentController@listCompanies')->name('students.comList');
     Route::get('/degList', 'StudentController@listDegreePrograms')->name('students.degreeList');
     Route::get('/testOps/{id}', 'StudentController@sortOpportunities')->name('students.testOps');
+
+    //Generate Letter
+    Route::get('/generate', 'StudentController@generateLetter')->name('students.generateLetter');
 
 });
 

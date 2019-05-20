@@ -13,7 +13,16 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use PhpOffice\PhpWord\Exception\CopyFileException;
+use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
+use PhpOffice\PhpWord\TemplateProcessor;
+use Swift_Attachment;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
 
 class StudentController extends Controller
 {
@@ -26,7 +35,10 @@ class StudentController extends Controller
                 'showCreate',
                 'doCreate',
                 'showSkills',
-                'saveSkills'
+                'saveSkills',
+                'sortOpportunities',
+                'getSortedOpportunities',
+                'generateLetter',
             ]);
     }
 
@@ -219,7 +231,7 @@ class StudentController extends Controller
         return redirect()->route('students.home', $stu_id);
     }
 
-    public function sortOpportunities($id)
+    public function sortOpportunities($stu_id)
     {
         $test = array();
         $test1 = array();
@@ -241,7 +253,7 @@ class StudentController extends Controller
             foreach ($current_op_union as $op_uni) {
                 $stu_skill_level = DB::table('student_skills')
                     ->where('skill_id', $op_uni->skill_id)
-                    ->where('stu_id', $id)
+                    ->where('stu_id', $stu_id)
                     ->pluck('stu_skill_level')
                     ->first();
 
@@ -310,6 +322,117 @@ class StudentController extends Controller
 
         return $res;
 
+    }
+
+    public function generateLetter()
+    {
+        $stu_id = Input::get('stu_id');
+        $com_id = Input::get('com_id');
+
+        $stu_details = DB::table('students AS stu')
+            ->where('stu_id', $stu_id)
+            ->leftJoin('degree_programs AS deg', 'deg.deg_id', '=', 'stu.deg_id')
+            ->leftJoin('universities AS uni', 'uni.uni_id', '=', 'deg.uni_id')
+            ->get()->first();
+        $com_detail = Company::query()->where('com_id', $com_id)->get()->first();
+
+        $TMP_DOC_FILE = storage_path() . '/app/public/tmp/' . now()->format('Ymdhi') . '_' . $stu_details->stu_prov_id . '_request_letter.docx';
+        $TMP_PDF_FILE = storage_path() . '/app/public/tmp/' . now()->format('Ymdhi') . '_' . $stu_details->stu_prov_id . '_request_letter.pdf';
+
+        // Generate doc using template
+        try {
+            $tp = new TemplateProcessor(storage_path() . '/app/public/Request_Letter_Template.docx');
+
+            $tp->setValue('date', date('d.m.Y'));
+            $tp->setValue('des_to_add', 'Manager - Human Resources');
+            $tp->setValue('com_name', $this->xmlEscape($com_detail->com_title));
+
+            $add_lines = explode("\r\n", $this->xmlEscape($com_detail->com_address));
+            $tp->setValue('add1', $add_lines[0]);
+            $tp->setValue('add2', $add_lines[1]);
+            $tp->setValue('add3', $add_lines[2]);
+
+            $tp->setValue('stu_name', $stu_details->stu_full_name);
+            if ($stu_details->uni_id == 5 || $stu_details->uni_short_code == 'UGC') {
+                $tp->setValue('stu_degree', $stu_details->deg_title . ' - approved by University Grant Commission, Sri Lanka');
+            } else {
+                $tp->setValue('stu_degree', $stu_details->deg_title . ' - offered in affiliation with ' . $stu_details->uni_title);
+            }
+            $tp->setValue('stu_id', $stu_details->stu_prov_id);
+
+            $tp->saveAs($TMP_DOC_FILE);
+
+        } catch (CopyFileException $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        } catch (CreateTemporaryFileException $e) {
+            return json_encode(['error' => $e->getMessage()]);
+        }
+
+        // Convert doc to PDF
+        if (file_exists($TMP_DOC_FILE)) {
+            shell_exec('unoconv -f pdf -o ' . $TMP_PDF_FILE . ' ' . $TMP_DOC_FILE);
+        }
+
+        // Attach PDF and email
+        $EMAIL_HOST = env('EMAIL_HOST');
+        $EMAIL_PORT = env('EMAIL_PORT');
+        $EMAIL_SECURITY = env('EMAIL_SECURITY');
+        $EMAIL_USERNAME = env('EMAIL_USERNAME');
+        $EMAIL_PASSWORD = base64_decode(env('EMAIL_PASSWORD'));
+
+        $transport = (new Swift_SmtpTransport($EMAIL_HOST, $EMAIL_PORT, $EMAIL_SECURITY))
+            ->setUsername($EMAIL_USERNAME)
+            ->setPassword($EMAIL_PASSWORD);
+        $mailer = new Swift_Mailer($transport);
+        $message = new Swift_Message();
+
+        $full_name = explode(" ", $stu_details->stu_full_name);
+        $first_name = reset($full_name);
+        $last_name = end($full_name);
+        $year = now()->format('Y');
+
+        $email_body = "
+                   <h1>Hello $first_name $last_name,</h1>
+                   <p>
+                   The letter you have requested for <b>$com_detail->com_title</b> is attached below. As this is a system generated email notification, if you have any inquiries or need assistance please contact 
+                   NSBM Career Guidance Unit on (011) 544 5067 or email your concern to careerguidance@nsbm.lk.
+                   <br>
+                   <br>
+                   We wish you good luck with your Career Life.
+                   <br>
+                   ~ CareerHub Team
+                   <br>
+                   <br>
+                   <div style='background-color: #e3e3e3;text-align: center;padding: 1%'>
+                        <small> Copyright © $year <strong>National School of Business Management Ltd.</strong> All Rights Reserved.</small>
+                   </div>
+                   </p>
+        ";
+
+        $message
+            ->setSubject('Request Letter for ' . $com_detail->com_title)
+            ->setFrom([$EMAIL_USERNAME => env('APP_NAME') . ' - NSBM Career Guidance Unit'])
+            ->setTo([$stu_details->stu_email => $stu_details->stu_full_name])
+            ->setBody($email_body, 'text/html')
+            ->attach(Swift_Attachment::fromPath($TMP_PDF_FILE));
+
+        $result = $mailer->send($message);
+
+        if ($result != 0) {
+            unlink($TMP_PDF_FILE);
+            unlink($TMP_DOC_FILE);
+            return json_encode(['success' => 'Email sent successfully']);
+        } else {
+            unlink($TMP_PDF_FILE);
+            unlink($TMP_DOC_FILE);
+            return json_encode(['error' => 'Error occurred while sending the email']);
+        }
+
+    }
+
+    function xmlEscape($string)
+    {
+        return str_replace(array('&', '<', '>', '\'', '"'), array('&amp;', '&lt;', '&gt;', '&apos;', '&quot;'), $string);
     }
 
 }
