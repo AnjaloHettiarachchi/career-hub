@@ -270,7 +270,7 @@ class StudentController extends Controller
                     $op_skill_level = 0;
                 }
 
-                // print $op_uni->skill_id . " --> " . $stu_skill_level . " - " . $op_skill_level . " = " . ($stu_skill_level - $op_skill_level);
+//                print $op_uni->skill_id . " --> " . $stu_skill_level . " - " . $op_skill_level . " = " . ($stu_skill_level - $op_skill_level) . "<br>";
 
                 if (($stu_skill_level - $op_skill_level) < 0) {
                     $num += 1;
@@ -283,8 +283,6 @@ class StudentController extends Controller
                 } elseif ($min > ($stu_skill_level - $op_skill_level)) {
                     $min = ($stu_skill_level - $op_skill_level);
                 }
-
-                // print "<br>";
             }
 
             array_push($test, array(
@@ -294,14 +292,14 @@ class StudentController extends Controller
                 "min" => $min
             ));
 
-            // print "<h1>Total: $total</h1><br><br>";
+//            print "<h1>Total: $total</h1><br><br>";
         }
 
-        // print_r(array_reverse(array_column($this->op_sort($test), 'op_id')));
+//         print_r(array_reverse(array_column($this->sort_array($test), 'op_id')));
 
-        // print "<pre>";
-        // print_r($this->op_sort($test));
-        // print "</pre>";
+//         print "<pre>";
+//         print_r($this->sort_array($test));
+//         print "</pre>";
 
         return array_reverse(array_column($this->sort_array($test), 'op_id'));
 

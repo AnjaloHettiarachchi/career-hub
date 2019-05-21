@@ -11,6 +11,12 @@
 
 @endsection
 
-@section('content')
-    <h1>Index</h1>
+@section('css')
+    <style type="text/css">
+        .Site-content {
+            background-image: url("{{ asset('svg/com_index_bg.svg') }}");
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    </style>
 @endsection
